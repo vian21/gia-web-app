@@ -1,25 +1,61 @@
-import logo from './logo.svg';
-import './App.css';
+import { Switch, Redirect, Route } from 'react-router-dom';
+import cookies from 'js-cookie';
 
-function App() {
+import Login from './views/Login'
+import SignUp from './views/SignUp'
+
+import Navbar from './components/NavBar';
+import Footer from './components/Footer';
+
+//Sign up process
+import Verify from './views/signup/Verify';          //collect name and id namber
+import Code from './views/signup/Code';              //enter code sent via email
+import SetPassword from './views/signup/SetPassword';
+
+export default function App() {
+
+  const authenticated = (page) => {
+    if (cookies.get('token')) {
+      return page;
+
+    } else {
+      return <Redirect to='/login' />
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Switch>
+      <Route exact path='/'>
+        {authenticated(<div>
+          <Navbar />
+          <Footer />
+        </div>)}
+      </Route>
+
+      <Route exact path='/login'>
+        <Login />
+      </Route>
+
+      {/* check if user exists in database */}
+      <Route exact path='/signup'>
+        <SignUp />
+      </Route>
+
+      {/* collect user email and send email verfication */}
+      <Route exact path='/signup/verify/:id'>
+        <Verify />
+      </Route>
+
+      {/* require and check the code via to email or text*/}
+      <Route exact path='/signup/code/:id'>
+        <Code />
+      </Route>
+
+      {/* set password and login user */}
+      <Route exact path='/signup/set-password/:id/:code'>
+        <SetPassword />
+      </Route>
+
+    </Switch>
   );
 }
-
-export default App;
