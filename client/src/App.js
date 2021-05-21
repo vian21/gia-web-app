@@ -1,8 +1,11 @@
 import { Switch, Redirect, Route } from 'react-router-dom';
 import cookies from 'js-cookie';
 
+//pages
 import Login from './views/Login'
 import SignUp from './views/SignUp'
+
+import Settings from './views/Settings'
 
 import Navbar from './components/NavBar';
 import Footer from './components/Footer';
@@ -28,6 +31,16 @@ export default function App() {
       <Route exact path='/'>
         {authenticated(<div>
           <Navbar />
+          <Footer />
+        </div>)}
+      </Route>
+
+      <Route exact path='/settings'>
+        {authenticated(<div>
+          <Navbar />
+
+          <Settings />
+
           <Footer />
         </div>)}
       </Route>
