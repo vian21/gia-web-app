@@ -5,7 +5,8 @@ import cookies from 'js-cookie';
 import Login from './views/Login'
 import SignUp from './views/SignUp'
 
-import Settings from './views/Settings'
+import Settings from './views/settings/';
+import EditSettings from './views/settings/EditSettings'
 
 import Navbar from './components/NavBar';
 import Footer from './components/Footer';
@@ -40,6 +41,16 @@ export default function App() {
           <Navbar />
 
           <Settings />
+
+          <Footer />
+        </div>)}
+      </Route>
+
+      <Route exact path='/settings/edit'>
+        {authenticated(<div>
+          <Navbar />
+
+          <EditSettings />
 
           <Footer />
         </div>)}
