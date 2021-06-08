@@ -21,7 +21,7 @@ export default function Verify() {
         event.preventDefault();
 
         if (id.length !== 0 && name.length !== 0) {
-            const res = await fetch('http://localhost:5000/users/signup/verify', {
+            const res = await fetch(`${process.env.REACT_APP_API}/api/users/signup/verify`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

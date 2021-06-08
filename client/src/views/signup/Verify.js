@@ -25,7 +25,7 @@ export default function Verify() {
         event.preventDefault();
 
         if (email.length !== 0 && error === '') {
-            const res = await fetch(`http://localhost:5000/users/signup/verify-email`, {
+            const res = await fetch(`${process.env.REACT_APP_API}/api/users/signup/verify-email`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -53,9 +53,9 @@ export default function Verify() {
             onSubmit={handleSubmit}
             className="w-4/5 m-auto p-3 pt-32">
 
-            <h4 className="flex text-3xl justify-center mb-3">Verify Account</h4>
+            <h4 className="flex text-3xl justify-center mb-3">Email Verification</h4>
 
-            <p>An 4-digits verification code will be sent to your email to verify your identity.</p>
+            <p>A 4-digits number will be sent to your email.</p>
 
             <input
                 onChange={handleChangeEmail}

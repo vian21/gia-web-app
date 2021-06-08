@@ -9,7 +9,7 @@ const validator = require('validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     const data = req.body;
 
     let query = 'SELECT * FROM users ';
@@ -20,35 +20,38 @@ router.post('/', (req, res) => {
         query += `WHERE idNumber = ${data.email};`;
     }
 
-    db.query(query, (error, result) => {
-        if (error) throw error
+    const [result] = await db.query(query)
 
-        if (result == '') {
-            res.json({ error: "Account not found!" })
-        } else {
-            bcrypt.compare(data.password, result[0].password, (error, match) => {
-                if (error) throw error
+        .catch(error => {
+            console.log(error)
+        })
 
-                if (!match) {
-                    res.json({ error: "Wrong password" })
-                }
-                else {
-                    //create a user object with data to be sent in JWT 
-                    const user = {
-                        id: result[0].id,
-                        name: result[0].name
-                    };
+    if (result == '') {
+        res.json({ error: "Account not found!" })
+    } else {
+        bcrypt.compare(data.password, result[0].password, (error, match) => {
+            if (error) throw error
 
-                    const token = jwt.sign(user, process.env.JWT_KEY, {
-                        expiresIn: 24 * 60 * 60
-                    });
+            if (!match) {
+                res.json({ error: "Wrong password" })
+            }
+            else {
+                //create a user object with data to be sent in JWT 
+                const user = {
+                    id: result[0].id,
+                    name: result[0].name
+                };
 
-                    res.json({ token: token });
-                }
-            })
-        }
+                const token = jwt.sign(user, process.env.JWT_KEY, {
+                    expiresIn: 365 * 24 * 60 * 60
+                });
 
-    })
+                res.json({ token: token });
+            }
+        })
+    }
+
+
 
 })
 

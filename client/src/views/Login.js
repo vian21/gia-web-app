@@ -24,7 +24,7 @@ export default function Login() {
     async function handleSubmit(event) {
         event.preventDefault();
         if (email && password) {
-            const res = await fetch(`http://localhost:5000/users/login`, {
+            const res = await fetch(`${process.env.REACT_APP_API}/api/users/login`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

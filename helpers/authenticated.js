@@ -3,6 +3,7 @@ const errorMessage = { error: "Please login!" };
 
 const authenticated = (req, res, next) => {
     if (req.cookies.token || req.headers['authorization']) {
+        //variable to store JWT token sent by device either in cookies or athentication header
         let token;
 
         //cookie based authentication [Web]
@@ -10,7 +11,8 @@ const authenticated = (req, res, next) => {
             token = req.cookies.token;
 
         }
-        //auth token [App]
+
+        //authentication token [App]
         if (req.headers['authorization']) {
             token = req.headers['authorization'].split(' ')[1];
         }
@@ -18,10 +20,17 @@ const authenticated = (req, res, next) => {
         //verify token
         jwt.verify(token, process.env.JWT_KEY, (error, decoded) => {
             if (error) {
+
                 res.json(errorMessage);
+
             } else {
-                //store user id for next handler
+
+                /*
+                 * store user id for next handler
+                 * This will be used for queries in Api
+                */
                 res.locals.id = decoded.id
+
                 next();
             }
         })

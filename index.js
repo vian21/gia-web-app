@@ -1,11 +1,13 @@
 const express = require('express')
 const app = express()
 
-const path=require('path');
+const path = require('path');
 const cors = require('cors')
 const compression = require('compression')
 const bodyParser = require('body-parser')                       //used to get data from client
-var cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+
+const api = require('./api');
 
 const PORT = process.env.PORT || 5000;
 
@@ -19,11 +21,13 @@ app.use(cookieParser())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())                                    //parse json from client
 
-// API routes
-app.use(require('./api'));
+/*
+ * API routes
+ */
+app.use('/api',api);
 
 //public folder
-app.use(express.static(path.resolve(__dirname,'public')));
+app.use(express.static(path.resolve(__dirname, 'public')));
 
 // 404 page
 app.use((req, res) => {

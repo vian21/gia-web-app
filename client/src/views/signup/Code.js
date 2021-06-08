@@ -10,7 +10,7 @@ export default function Verify() {
     async function handleSubmit(event) {
         event.preventDefault();
 
-        const res = await fetch(`http://localhost:5000/users/signup/verify-code`, {
+        const res = await fetch(`${process.env.REACT_APP_API}/api/users/signup/verify-code`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

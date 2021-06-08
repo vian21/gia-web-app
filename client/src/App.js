@@ -3,7 +3,7 @@ import cookies from 'js-cookie';
 
 //pages
 import Login from './views/Login'
-import SignUp from './views/SignUp'
+import SignUp from './views/signup/index'
 
 import Settings from './views/settings/';
 import EditSettings from './views/settings/EditSettings'
@@ -16,7 +16,13 @@ import Verify from './views/signup/Verify';          //collect name and id nambe
 import Code from './views/signup/Code';              //enter code sent via email
 import SetPassword from './views/signup/SetPassword';
 
+//UI
+import Post from './views/Post';
+
 export default function App() {
+
+  //global variable for genders
+  window.genders = ['Male', 'Female'];
 
   const authenticated = (page) => {
     if (cookies.get('token')) {
@@ -29,6 +35,7 @@ export default function App() {
 
   return (
     <Switch>
+      {/* UI pages */}
       <Route exact path='/'>
         {authenticated(<div>
           <Navbar />
@@ -36,6 +43,15 @@ export default function App() {
         </div>)}
       </Route>
 
+      {/* Post */}
+      <Route exact path='/posts/:id'>
+        {authenticated(<div>
+          <Post />
+          <Footer />
+        </div>)}
+      </Route>
+
+      {/* setting tab */}
       <Route exact path='/settings'>
         {authenticated(<div>
           <Navbar />
@@ -48,7 +64,6 @@ export default function App() {
 
       <Route exact path='/settings/edit'>
         {authenticated(<div>
-          <Navbar />
 
           <EditSettings />
 
@@ -56,26 +71,28 @@ export default function App() {
         </div>)}
       </Route>
 
+      {/* Login */}
       <Route exact path='/login'>
         <Login />
       </Route>
 
-      {/* check if user exists in database */}
+      {/* Signup process */}
+      {/* step 1: check if user exists in database */}
       <Route exact path='/signup'>
         <SignUp />
       </Route>
 
-      {/* collect user email and send email verfication */}
+      {/* step 2: collect user email and send email verfication */}
       <Route exact path='/signup/verify/:id'>
         <Verify />
       </Route>
 
-      {/* require and check the code via to email or text*/}
+      {/* step 3: require and check the code via to email or text*/}
       <Route exact path='/signup/code/:id'>
         <Code />
       </Route>
 
-      {/* set password and login user */}
+      {/* step 4: set password and login user */}
       <Route exact path='/signup/set-password/:id/:code'>
         <SetPassword />
       </Route>
