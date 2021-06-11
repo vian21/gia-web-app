@@ -29,6 +29,8 @@ export default function Post() {
     const token = Cookies.get('token');
 
     const [post, setPost] = useState({});
+    const [comments, setComments] = useState([]);
+
 
 
     //fetch post data
@@ -51,7 +53,23 @@ export default function Post() {
             }
         }
 
+        const getComments = async () => {
+            const res = await fetch(`${process.env.REACT_APP_API}/api/posts/${id}/comments`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+            const data = await res.json()
+
+            if (data.success) {
+                setComments(data.success.data.comments);
+
+            }
+        }
+
         getPost();
+        getComments();
     }, [id, token]);
 
     return <div>
@@ -133,7 +151,48 @@ export default function Post() {
         </div>
 
         {/* comment section */}
-        <div
-            className=""></div>
+        {(() => {
+            if (comments.length !== 0) {
+                return <div>
+                    {
+                        comments.map((comment, index) => {
+                            return <div
+                                key={index}
+                                className="w-full flex">
+
+                                {/* user image */}
+                                <div className="w-1/12 m-2">
+                                    <img className="w-full rounded-full"
+                                        src={comment.userImage || process.env.REACT_APP_API + '/images/defaultIcon.png'}
+                                        alt="User pic"
+                                        loading="lazy" />
+                                </div>
+
+                                <div className="w-11/12">
+                                    {/* user name */}
+                                    <div
+                                        className="text-lg font-medium">{comment.user}</div>
+
+                                    {/* comment text */}
+                                    <div
+                                        className="font-base">{comment.comment}</div>
+                                </div>
+                            </div>
+                        })
+                    }
+                </div>
+            } else {
+                return <div className="text-lg p-3 mb-3">No comments!</div>
+            }
+        })()}
+        {/* comment form */}
+        <div>
+            <form className="w-full">
+                <input type="text" className="p-2 ml-2 w-10/12 border-solid border-2 border-gray-300 rounded-lg" />
+                <button className=" w-1/12 text-blue-300 px-2">
+                <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" /></svg>
+                </button>
+            </form>
+        </div>
     </div >;
 }
