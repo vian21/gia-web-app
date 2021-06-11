@@ -1,9 +1,8 @@
 const db = require('../../db');
+
 const getLikedBy = require('./select').getLikedBy;
 
 const like = async (post, user) => {
-    const [result] = await db.query(`UPDATE posts SET likes=likes+1 WHERE id=${post}`)
-        .catch(console.log)
 
     //fecth array of users who liked post
     let likedBy = await getLikedBy(post);
@@ -12,30 +11,59 @@ const like = async (post, user) => {
     if (likedBy.indexOf(user) === -1) {
         likedBy.push(user);
 
-        await db.query(`UPDATE posts SET likedBy='${JSON.stringify(likedBy)}' WHERE id=${post}`)
-            .catch(console.log);
+        await updateLikedBy(likedBy, post)
+
+        const [result] = await db.query(`UPDATE posts SET likes=likes+1 WHERE id=${post}`)
+            .catch(console.log)
+
+        //successfull increment in likes
+        if (result.affectedRows) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-
-    if (result.affectedRows) {
-        return true
-    } else {
-        return false;
-    }
 }
 
 const unlike = async (post, user) => {
     const [result] = await db.query(`UPDATE posts SET likes=likes-1 WHERE id=${post}`)
         .catch(console.log);
 
+    let likedBy = await getLikedBy(post);
+
+    //remove user from liked array
+    if (likedBy.indexOf(user) !== -1) {
+
+        //get index of user in array
+        const index = likedBy.indexOf(user);
+
+        //remove userId from array
+        likedBy.splice(index);
+
+        //update database
+        await updateLikedBy(likedBy, post);
+    }
+
     if (result.affectedRows) {
-        return true
+        return true;
     } else {
         return false;
     }
 }
 
+const updateLikedBy = async (array, postId) => {
+    const [result] = await db.query(`UPDATE posts SET likedBy='${JSON.stringify(array)}' WHERE id=${postId}`)
+        .catch(console.log);
+
+    if (result.affectedRows) {
+        return true;
+    } else {
+        return false;
+    }
+}
 module.exports = {
     like,
     unlike,
+    updateLikedBy,
 }

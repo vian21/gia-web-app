@@ -2,13 +2,34 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 
 import Cookies from 'js-cookie';
+
 import LikeButton from '../components/LikeButton';
+
+//swiper
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/swiper.min.css";
+import "swiper/components/pagination/pagination.min.css";
+
+
+// import Swiper core and required modules
+import SwiperCore, {
+    Pagination
+} from 'swiper/core';
+
+// install Swiper modules
+SwiperCore.use([Pagination]);
+
+
 
 export default function Post() {
     const { id } = useParams();
     const token = Cookies.get('token');
 
     const [post, setPost] = useState({});
+
 
     //fetch post data
     useEffect(() => {
@@ -26,6 +47,7 @@ export default function Post() {
             }
             if (data.success) {
                 setPost(data.success.data);
+
             }
         }
 
@@ -39,7 +61,8 @@ export default function Post() {
             <div className="w-1/5 float-left p-3">
                 <img className="w-full rounded-full"
                     src={post.userImage || process.env.REACT_APP_API + '/images/defaultIcon.png'}
-                    alt="User pic" />
+                    alt="User pic"
+                    loading="lazy" />
             </div>
 
             <div className="w-4/5 p-3 m-auto">
@@ -53,33 +76,34 @@ export default function Post() {
         </div>
 
         {/* Post content */}
-        <div
-            className="w-full">
-            {(() => {
-                //Image
-                if (post.type) {
-                    return <div>
-                        {post.attachments.map((attachment, index) => (
-                            <div
-                                className="w-full bg-gray-300"
-                                key={index} >
-                                <img
-                                    className="w-full m-auto"
-                                    src={process.env.REACT_APP_API + '/images/' + attachment}
-                                    height={window.innerWidth}
-                                    alt='Post img' />
-                            </div>
-                        ))}
+        {(() => {
+            //Image
+            if (post.type) {
+                return <Swiper
+                    pagination={true}
+                    className="w-full">
+                    {post.attachments.map((attachment, index) => {
 
-                    </div>
-                }
-                //Text post
-                else {
-                    return <div>{post.text}</div>
-                }
-            })()}
+                        return < SwiperSlide
+                            className="w-full bg-gray-300"
+                            key={index} >
+                            <img
+                                className="w-full m-auto"
+                                src={process.env.REACT_APP_API + '/images/' + attachment}
+                                height={window.innerWidth}
+                                alt='Post img'
+                                loading="lazy" />
+                        </SwiperSlide>
+                    })}
 
-        </div>
+                </Swiper>
+            }
+            //Text post
+            else {
+                return <div>{post.text}</div>
+            }
+        })()}
+
 
         {/* action bar */}
         <div
@@ -111,5 +135,5 @@ export default function Post() {
         {/* comment section */}
         <div
             className=""></div>
-    </div>;
+    </div >;
 }
