@@ -1,7 +1,7 @@
 const db = require('../../../db');
 
 const date = new Date();
-const time = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+const time = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()+1}:${date.getMinutes()+1}`;
 
 
 const saveComment = async (postId, userId, comment) => {

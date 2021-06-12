@@ -11,7 +11,9 @@ router.post('/', authenticated, async (req, res) => {
     const comment = req.body.comment;
 
     if (comment && postId) {
-        if (saveComment(postId, user, comment)) {
+        const save = await saveComment(postId, user, comment);
+        
+        if (save) {
             res.json({ success: 'posted!' })
         } else {
             res.json({ error: 'Failed to post comment!' });
