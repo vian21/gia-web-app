@@ -45,19 +45,7 @@ const getLikedBy = async (post) => {
 
 }
 
-//comments
-const getComments = async (postId, offSet) => {
-    const [result] = await db.query(`SELECT * FROM comments WHERE postId=${postId} LIMIT ${offSet},20`)
-        .catch(console.log);
-
-    if (result.length == 0) {
-        return false;
-    } else {
-        return result;
-    }
-}
 module.exports = {
     getLikedBy,
     getPost,
-    getComments,
 }

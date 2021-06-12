@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom';
 
 import Cookies from 'js-cookie';
@@ -31,7 +31,22 @@ export default function Post() {
     const [post, setPost] = useState({});
     const [comments, setComments] = useState([]);
 
+    const commentText = useRef('');
 
+    const getComments = async () => {
+        const res = await fetch(`${process.env.REACT_APP_API}/api/posts/${id}/comments`, {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        })
+        const data = await res.json()
+
+        if (data.success) {
+            setComments(data.success.data.comments);
+
+        }
+    }
 
     //fetch post data
     useEffect(() => {
@@ -53,25 +68,39 @@ export default function Post() {
             }
         }
 
-        const getComments = async () => {
-            const res = await fetch(`${process.env.REACT_APP_API}/api/posts/${id}/comments`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                }
-            })
-            const data = await res.json()
-
-            if (data.success) {
-                setComments(data.success.data.comments);
-
-            }
-        }
-
         getPost();
         getComments();
     }, [id, token]);
 
+    async function comment(event) {
+        event.preventDefault();
+
+        if (commentText.current.value !== '') {
+            const res = await fetch(`${process.env.REACT_APP_API}/api/posts/comments/save`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    postId: post.id,
+                    comment: commentText.current.value
+                })
+
+            })
+            const data = await res.json();
+            if (data.error) {
+                alert(data.error)
+            }
+
+            if (data.success) {
+                commentText.current.value = '';
+                getComments();
+            }
+        } else {
+            alert('Please enter a comment!')
+        }
+    }
     return <div>
         {/* info bar */}
         <div
@@ -187,11 +216,15 @@ export default function Post() {
         })()}
         {/* comment form */}
         <div>
-            <form className="w-full">
-                <input type="text" className="p-2 ml-2 w-10/12 border-solid border-2 border-gray-300 rounded-lg" />
+            <form
+                onSubmit={comment}
+                className="w-full">
+                <input
+                    ref={commentText}
+                    type="text"
+                    className="p-2 ml-2 w-10/12 border-solid border-2 border-gray-300 rounded-lg" />
                 <button className=" w-1/12 text-blue-300 px-2">
-                <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" /></svg>
-                </button>
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>                </button>
             </form>
         </div>
     </div >;
