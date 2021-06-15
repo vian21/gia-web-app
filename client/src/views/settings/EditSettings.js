@@ -169,7 +169,7 @@ export default function Settings() {
             <span
                 className="p-2 inline-block">ID number:</span>
             <input
-                className="p-2 bg-gray-100 px-5"
+                className="p-2 bg-gray-100 px-5 dark:text-black"
                 defaultValue={user.idNumber}
                 onBlur={updateId}
             />
@@ -182,7 +182,7 @@ export default function Settings() {
             <span
                 className="p-2 inline-block">Name:</span>
             <input
-                className="p-2 bg-gray-100 px-5"
+                className="p-2 bg-gray-100 px-5 dark:text-black"
                 defaultValue={user.name}
                 onBlur={updateName}
             />
@@ -194,7 +194,7 @@ export default function Settings() {
             <span
                 className="p-2 inline-block">DOB:</span>
             <input
-                className="p-2 bg-gray-100 px-5"
+                className="p-2 bg-gray-100 px-5 dark:text-black"
                 type="date"
                 defaultValue={user.DOB}
                 onBlur={updateDOB}
@@ -221,7 +221,7 @@ export default function Settings() {
             <span
                 className="p-2 inline-block">Email:</span>
             <input
-                className="p-2 bg-gray-100 px-5"
+                className="p-2 bg-gray-100 px-5 dark:text-black"
                 defaultValue={user.email}
                 onBlur={updateEmail}
             />
@@ -236,7 +236,7 @@ export default function Settings() {
                 <span
                     className="p-2 inline-block">{contact.app}:</span>
                 <input
-                    className="p-2 bg-gray-100 px-5"
+                    className="p-2 bg-gray-100 px-5 dark:text-black"
                     defaultValue={contact.value}
                     onBlur={(e) => updateContact(e, index)}
                 />

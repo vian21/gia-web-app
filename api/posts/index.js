@@ -5,9 +5,13 @@ const action = require('./action');
 const comments = require('./comments');
 
 const getPost = require('../../helpers/functions/posts/select').getPost;
+const getAuthenticatedUserId = require('../../helpers/getUserId');
 
 router.post('/:id', async (req, res) => {
-    const post = await getPost(req.params.id);
+    const userId = await getAuthenticatedUserId(req);
+
+    const post = await getPost(req.params.id, userId);
+
 
     if (post) {
         res.json({

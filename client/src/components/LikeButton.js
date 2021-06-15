@@ -13,6 +13,7 @@ export default function LikeButton({ post }) {
         if (post.selfLike) {
             setLiked(true)
         }
+
     }, [post.likes, post.selfLike]);
 
     const sendRequest = async (action) => {
@@ -36,18 +37,25 @@ export default function LikeButton({ post }) {
 
     const likeHandler = async (event) => {
         event.preventDefault();
-        if (liked) {
 
-            if (sendRequest('unlike')) {
-                setLikes(likes - 1);
-                setLiked(false);
+        //check if user is logged in
+        if (token) {
+            if (liked) {
+
+                if (sendRequest('unlike')) {
+                    setLikes(likes - 1);
+                    setLiked(false);
+                }
+            } else {
+                if (sendRequest('like')) {
+                    setLikes(likes + 1);
+                    setLiked(true);
+                }
             }
         } else {
-            if (sendRequest('like')) {
-                setLikes(likes + 1);
-                setLiked(true);
-            }
+            alert("Please Login!");
         }
+
     }
 
     return <div

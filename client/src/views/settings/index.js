@@ -58,18 +58,53 @@ export default function Settings() {
         fetchUserPosts();
     }, [token]);
 
+    function changeTheme(event) {
+        event.preventDefault();
+
+        let choice = event.target.value;
+
+        if (choice === 'system') {
+            localStorage.removeItem('theme');
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+            }
+
+        } else {
+            localStorage.setItem('theme', choice);
+
+            if (choice === 'light') {
+                document.documentElement.classList.remove('dark')
+
+            } else {
+                document.documentElement.classList.add('dark');
+
+            }
+        }
+
+    }
     return <div
         className="w-96 m-auto text-lg">
         <img
             className="w-4/5 m-auto pt-2 pb-4 rounded-full"
             src={user.profilePicture || `${process.env.REACT_APP_API}/images/defaultIcon.png`} alt='userImage' />
-
+        {/* dark mode toggler */}
+        <div >
+            <span>Theme:</span>
+            <select
+                onChange={changeTheme}
+                className="ml-2 p-2 dark:text-black">
+                <option value="light">Light mode</option>
+                <option value="dark">Dark mode</option>
+                <option value="system">System</option>
+            </select>
+        </div>
         <div
             className="">
             <span
                 className="p-2 inline-block">ID number:</span>
             <span
-                className="p-2 bg-gray-100 px-5">{user.idNumber}</span>
+                className="p-2 px-5 dark:text-white">{user.idNumber}</span>
         </div>
 
         <div
@@ -77,7 +112,7 @@ export default function Settings() {
             <span
                 className="p-2 inline-block">Name:</span>
             <span
-                className="p-2 bg-gray-100 px-5">{user.name}</span>
+                className="p-2 px-5">{user.name}</span>
         </div>
 
         <div
@@ -85,7 +120,7 @@ export default function Settings() {
             <span
                 className="p-2 inline-block">DOB:</span>
             <span
-                className="p-2 bg-gray-100 px-5">{user.DOB}</span>
+                className="p-2 px-5 dark:text-white">{user.DOB}</span>
         </div>
 
         <div
@@ -93,7 +128,7 @@ export default function Settings() {
             <span
                 className="p-2 inline-block">Gender:</span>
             <span
-                className="p-2 bg-gray-100 px-5">{window.genders[user.gender]}</span>
+                className="p-2 px-5 dark:text-white">{window.genders[user.gender]}</span>
         </div>
 
         <div
@@ -101,25 +136,26 @@ export default function Settings() {
             <span
                 className="p-2 inline-block">Email:</span>
             <span
-                className="p-2 bg-gray-100 px-5">{user.email}</span>
+                className="p-2 px-5 dark:text-white">{user.email}</span>
         </div>
 
         {/* contacts */}
         {contacts.map((contact, index) => (
             <div
                 key={index}
-                className="">
+            >
                 {/* display contacts with value added to them */}
                 {contact.value && <div>
                     <span
                         className="p-2 inline-block">{contact.app}:</span>
                     <span
-                        className="p-2 bg-gray-100 px-5">{contact.value}</span>
+                        className="p-2 px-5 dark:text-white">{contact.value}</span>
                 </div>
                 }
 
             </div>
         ))}
+        
         <center>
             <Link to='/settings/edit'>
                 <button
@@ -129,7 +165,7 @@ export default function Settings() {
         </center>
 
         {/* Posts */}
-        <h1>Posts</h1>
+        <h1 className="dark:text-black">Posts</h1>
         <div
             id="posts"
             className="w-full grid grid-cols-3 gap-1">

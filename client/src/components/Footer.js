@@ -6,7 +6,7 @@ export default function Footer() {
      * the footer is designed to suit mobile phone and uses media queries for larger screens
      */
 
-    return <div className="mt-12">
+    return <div className="mt-12 inline-block">
         {/* Mobile Tab Bar*/}
         <div id="mobile"
             className="w-full bg-green-300 object-bottom bottom-0 fixed text-center text-white p-2 mt-3 lg:hidden 

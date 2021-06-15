@@ -4,7 +4,7 @@ const dayjs = require('dayjs');
 const getUserName = require('../users/select').getUserName;
 const getUserImage = require('../users/select').getUserImage;
 
-const getPost = async (id) => {
+const getPost = async (id, userId = 0) => {
     const [result] = await db.query(`SELECT * FROM posts WHERE id=${id}`)
 
     if (result.length == 0) {
@@ -13,21 +13,27 @@ const getPost = async (id) => {
         //fetch user name
         const userName = await getUserName(result[0].user);
         const userImage = await getUserImage(result[0].user);
-        let isOwn;
-        /*
-         * hey bro fix how the system will know if the post is own(current user)
-         * This api route can be accessed whether logged in or not
-         * If not own how to know u already liked it
-         */
+
+        let selfLike = false;
+
+        //array of user ids
+        let likedBy = JSON.parse(result[0].likedBy || '[]');
+
+        if (likedBy.includes(userId)) {
+            selfLike = true
+        }
+
+        //TODO: get info of user who like the post
+
         return {
             id: result[0].id,
             user: result[0].user,
             userName: userName,
             userImage: userImage,
             time: dayjs(result[0].time).format('YYYY-MM-DD HH:mm'),
-            selfLike: result[0].selfLike,
+            selfLike: selfLike,
             likes: result[0].likes,
-            likeBy: JSON.parse(result[0].likeBy || null),
+            likeBy: 0,
             location: result[0].location,
             attachments: JSON.parse(result[0].attachments || null),
             text: result[0].text,

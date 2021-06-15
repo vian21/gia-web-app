@@ -33,33 +33,38 @@ export default function Comments(props) {
 
     async function comment(event) {
         event.preventDefault();
+        if (token) {
+            if (commentText.current.value !== '') {
+                const res = await fetch(`${process.env.REACT_APP_API}/api/posts/comments/save`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({
+                        postId: id,
+                        comment: commentText.current.value
+                    })
 
-        if (commentText.current.value !== '') {
-            const res = await fetch(`${process.env.REACT_APP_API}/api/posts/comments/save`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                },
-                body: JSON.stringify({
-                    postId: id,
-                    comment: commentText.current.value
                 })
 
-            })
+                const data = await res.json();
+                if (data.error) {
+                    alert(data.error)
+                }
 
-            const data = await res.json();
-            if (data.error) {
-                alert(data.error)
-            }
+                if (data.success) {
+                    commentText.current.value = '';
+                    getComments();
 
-            if (data.success) {
-                commentText.current.value = '';
-                getComments();
-                setVisibleForm(false);
+                    //hide commment field when done
+                    // setVisibleForm(false);
+                }
+            } else {
+                alert('Please enter a comment!')
             }
         } else {
-            alert('Please enter a comment!')
+            alert("Please Login!");
         }
     }
 
