@@ -17,7 +17,7 @@ router.post('/:id/comments', async (req, res) => {
             }
         });
     } else {
-        res.json({ error: 'No posts' })
+        res.json({ error: 'No comments' })
     }
 })
 

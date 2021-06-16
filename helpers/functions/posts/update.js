@@ -13,7 +13,7 @@ const like = async (post, user) => {
 
         await updateLikedBy(likedBy, post)
 
-        const [result] = await db.query(`UPDATE posts SET likes=likes+1 WHERE id=${post}`)
+        const [result] = await db.execute(`UPDATE posts SET likes=likes+1 WHERE id = ?`, [post])
             .catch(console.log)
 
         //successfull increment in likes
@@ -27,7 +27,7 @@ const like = async (post, user) => {
 }
 
 const unlike = async (post, user) => {
-    const [result] = await db.query(`UPDATE posts SET likes=likes-1 WHERE id=${post}`)
+    const [result] = await db.execute(`UPDATE posts SET likes=likes-1 WHERE id = ?`, [post])
         .catch(console.log);
 
     let likedBy = await getLikedBy(post);
@@ -53,7 +53,7 @@ const unlike = async (post, user) => {
 }
 
 const updateLikedBy = async (array, postId) => {
-    const [result] = await db.query(`UPDATE posts SET likedBy='${JSON.stringify(array)}' WHERE id=${postId}`)
+    const [result] = await db.execute(`UPDATE posts SET likedBy = ? WHERE id = ?`, [JSON.stringify(array), postId])
         .catch(console.log);
 
     if (result.affectedRows) {

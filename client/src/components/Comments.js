@@ -113,7 +113,7 @@ export default function Comments(props) {
                 <input
                     ref={commentText}
                     type="text"
-                    className="p-2 ml-2 w-10/12 border-solid border-2 border-gray-300 rounded-lg" />
+                    className="p-2 ml-2 w-10/12 border-solid border-2 border-gray-300 rounded-lg dark:text-black" />
                 <button className=" w-1/12 text-blue-300 px-2">
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>                </button>
             </form>

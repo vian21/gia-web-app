@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom';
 
 import Cookies from 'js-cookie';
 
@@ -27,9 +28,13 @@ export default function Post({ postId }) {
     const id = postId;
     const token = Cookies.get('token');
 
+    const history = useHistory();
+
     const [post, setPost] = useState({});
 
     const [menu, setMenu] = useState(false);
+
+    const loginError = "Please Login!";
 
     //fetch post data
     useEffect(() => {
@@ -57,11 +62,45 @@ export default function Post({ postId }) {
     function menuHandler(event) {
         event.preventDefault();
 
-        if (menu) {
-            setMenu(false)
+        if (token) {
+            if (menu) {
+                setMenu(false)
+            } else {
+                setMenu(true)
+            }
         } else {
-            setMenu(true)
+            alert(loginError);
         }
+
+    }
+
+    async function deletePost() {
+        if (token) {
+
+            if (window.confirm("Are you sure you want to delete post?")) {
+                const res = await fetch(`${process.env.REACT_APP_API}/api/posts/${id}/delete`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+
+                const data = await res.json();
+
+                if (data.error) {
+                    alert(data.error)
+                }
+
+                if (data.success) {
+                    alert("Post deleted!");
+                    history.push('/');
+
+                }
+            }
+        } else {
+            alert(loginError)
+        }
+
     }
     return <div>
         {/* info bar */}
@@ -90,13 +129,14 @@ export default function Post({ postId }) {
                 </div>
 
                 {/* dropdown menu content */}
-                <div 
-                className={"w-2/5 top-20 overflow-hidden z-40 right-0 absolute " + `${menu ? 'block' : 'hidden'}`}>
+                <div
+                    className={"w-2/5 top-20 overflow-hidden bg-white dark:bg-gray-900 z-40 right-0 absolute " + `${menu ? 'block' : 'hidden'}`}>
                     <ul>
                         <li
-                        className=" p-3 border-b-2 block">Save</li>
+                            className=" p-3 border-b-2 block">Save</li>
                         <li
-                        className=" p-3 border-b-2 block">Delete</li>
+                            onClick={deletePost}
+                            className=" p-3 border-b-2 block">Delete</li>
                     </ul>
                 </div>
             </div>

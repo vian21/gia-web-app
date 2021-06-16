@@ -1,7 +1,7 @@
 const db = require('../../db');
 
 const updateIdNumber = async (id, idNumber) => {
-    const [result] = await db.query(`UPDATE users set idNumber='${idNumber}' WHERE id=${id}`)
+    const [result] = await db.execute(`UPDATE users set idNumber = ? WHERE id = ?`, [idNumber, id])
         .catch(console.log)
 
     if (result.affectedRows) {
@@ -14,7 +14,7 @@ const updateIdNumber = async (id, idNumber) => {
 }
 
 const updateName = async (id, name) => {
-    const [result] = await db.query(`UPDATE users set name='${name}' WHERE id=${id}`)
+    const [result] = await db.execute(`UPDATE users set name = ? WHERE id = ?`, [name, id])
         .catch(console.log)
 
     if (result.affectedRows) {
@@ -28,7 +28,7 @@ const updateName = async (id, name) => {
 }
 
 const updateEmail = async (id, email) => {
-    const [result] = await db.query(`UPDATE users set email='${email}' WHERE id=${id}`)
+    const [result] = await db.execute(`UPDATE users set email ,= ? WHERE id = ?`, [email, id])
         .catch(console.log)
 
     if (result.affectedRows) {
@@ -40,7 +40,7 @@ const updateEmail = async (id, email) => {
 }
 
 const updateDOB = async (id, DOB) => {
-    const [result] = await db.query(`UPDATE users set DOB='${DOB}' WHERE id=${id}`)
+    const [result] = await db.execute(`UPDATE users set DOB = ? WHERE id = ?`, [DOB, id])
         .catch(console.log)
 
     if (result.affectedRows) {
@@ -52,7 +52,7 @@ const updateDOB = async (id, DOB) => {
 }
 
 const updateGender = async (id, gender) => {
-    const [result] = await db.query(`UPDATE users set gender='${gender}' WHERE id=${id}`)
+    const [result] = await db.execute(`UPDATE users set gender = ? WHERE id = ?`, [gender, id])
         .catch(console.log)
 
     if (result.affectedRows) {
@@ -64,7 +64,7 @@ const updateGender = async (id, gender) => {
 }
 
 const updateContact = async (id, value) => {
-    const [result] = await db.query(`UPDATE users set contacts='${value}' WHERE id=${id}`)
+    const [result] = await db.execute(`UPDATE users set contacts = ? WHERE id = ?`, [value, id])
         .catch(console.log)
 
     if (result.affectedRows) {

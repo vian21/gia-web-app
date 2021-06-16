@@ -7,7 +7,7 @@ const dayjs = require('dayjs');
 
 router.post('/', async (req, res) => {
     // res.locals.id is defined in ./helpers/authenticated
-    const [results] = await db.query(`SELECT * FROM posts WHERE user=${res.locals.id}`)
+    const [results] = await db.execute(`SELECT * FROM posts WHERE user = ?`, [res.locals.id])
         .catch(error => {
             console.log(error)
         })

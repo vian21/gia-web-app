@@ -8,7 +8,7 @@ const db = require('../../../helpers/db');
 router.post('/', async (req, res) => {
     const data = req.body;
 
-    const [result] = await db.query(`SELECT*FROM users WHERE idNumber=${data.id}`)
+    const [result] = await db.execute(`SELECT * FROM users WHERE idNumber = ?`, [data.id])
         .catch(error => {
             console.log(error)
         })

@@ -6,7 +6,7 @@ const dayjs = require('dayjs')
 const db = require('../../../helpers/db');
 
 router.post('/', async (req, res) => {
-    const [result] = await db.query(`SELECT id,idNumber,name, email, contacts, profilePicture, DOB, gender FROM users WHERE id=${res.locals.id}`)
+    const [result] = await db.execute(`SELECT id,idNumber,name, email, contacts, profilePicture, DOB, gender FROM users WHERE id=?`, [res.locals.id])
         .catch(console.log)
 
     if (result.length !== 0) {

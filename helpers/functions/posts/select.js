@@ -5,7 +5,7 @@ const getUserName = require('../users/select').getUserName;
 const getUserImage = require('../users/select').getUserImage;
 
 const getPost = async (id, userId = 0) => {
-    const [result] = await db.query(`SELECT * FROM posts WHERE id=${id}`)
+    const [result] = await db.execute(`SELECT * FROM posts WHERE id = ?`, [id])
 
     if (result.length == 0) {
         return false
@@ -44,7 +44,7 @@ const getPost = async (id, userId = 0) => {
 }
 
 const getLikedBy = async (post) => {
-    const [result] = await db.query(`SELECT likedBy FROM posts WHERE id=${post}`)
+    const [result] = await db.execute(`SELECT likedBy FROM posts WHERE id = ?`, [post])
         .catch(console.log);
 
     return JSON.parse(result[0].likedBy || '[]');

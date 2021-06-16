@@ -5,7 +5,7 @@ const db = require('../../../helpers/db');
 
 router.post('/', async (req, res) => {
     const data = req.body;
-    const [result] = await db.query(`SELECT id,activationCode,email FROM users where id=${data.id} AND activationCode=${data.code} AND accountActive=0`)
+    const [result] = await db.execute(`SELECT id,activationCode,email FROM users WHERE id = ? AND activationCode = ? AND accountActive = 0`, [data.id, data.code])
         .catch(error => {
             console.log(error);
         })

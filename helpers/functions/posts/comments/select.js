@@ -6,7 +6,7 @@ const getUserImage = require('../../users/select').getUserImage;
 
 //comments
 const getComments = async (postId, offSet) => {
-    const [results] = await db.query(`SELECT * FROM comments WHERE postId=${postId} ORDER BY id DESC LIMIT ${offSet},10`)
+    const [results] = await db.execute(`SELECT * FROM comments WHERE postId = ? ORDER BY id DESC LIMIT ? ,10`, [postId, offSet])
         .catch(console.log);
 
     if (results.length !== 0) {

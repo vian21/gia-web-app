@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
 
     const hash = bcrypt.hashSync(data.password, 12);
 
-    const [result] = await db.query(`UPDATE users SET password='${hash}', accountActive=1 WHERE id=${data.id} AND activationCode=${data.code} AND accountActive=0`)
+    const [result] = await db.execute(`UPDATE users SET password = ?, accountActive = 1 WHERE id = ? AND activationCode = ? AND accountActive = 0`, [hash, data.id, data.code])
         .catch(error => {
             console.log(error)
         })

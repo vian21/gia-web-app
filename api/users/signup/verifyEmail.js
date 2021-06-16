@@ -9,11 +9,11 @@ router.post('/', async (req, res) => {
     //generate confirmation code
     const code = Math.floor(Math.random() * (10000 - 1000)) + 1000;
 
-    const [result] = await db.query(`UPDATE users  SET email='${data.email}', activationCode=${code} WHERE id=${data.id} and accountActive=0`)
+    const [result] = await db.execute(`UPDATE users  SET email = ?, activationCode = ? WHERE id = ? and accountActive=0`, [data.email, code, data.id])
         .catch(error => {
             console.log(error);
         })
-        
+
     if (result.affectedRows) {
         //send email
         res.json({
