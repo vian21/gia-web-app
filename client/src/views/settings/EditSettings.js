@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import cookies from 'js-cookie';
 
@@ -244,6 +245,17 @@ export default function Settings() {
                 />
             </div>
         ))}
+
+        <br />
+
+        <center>
+            <Link to='/logout'><button
+                className="w-5/6 text-white p-3 bg-green-300 mb-4">Logout</button>
+            </Link>
+
+            <button
+                className="w-5/6 text-white p-3 bg-red-300">Delete Account!</button>
+        </center>
 
     </div>
 }

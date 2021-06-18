@@ -5,6 +5,8 @@ import cookies from 'js-cookie';
 import Home from './views/Home';
 
 import Login from './views/Login'
+import Logout from './views/Logout'
+
 import SignUp from './views/signup/index'
 
 import Settings from './views/settings/';
@@ -90,6 +92,11 @@ export default function App() {
         {/* Login */}
         <Route exact path='/login'>
           <Login />
+        </Route>
+
+         {/* Logout */}
+         <Route exact path='/logout'>
+          <Logout />
         </Route>
 
         {/* Signup process */}
