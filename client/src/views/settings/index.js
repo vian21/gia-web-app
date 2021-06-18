@@ -9,6 +9,15 @@ export default function Settings() {
     const [contacts, setContacts] = useState([]);
     const [posts, setPosts] = useState([]);
 
+    let theme = 'system';
+    if (localStorage.getItem('theme') && localStorage.getItem('theme') == 'dark') {
+        theme = 'dark';
+    }
+    if (localStorage.getItem('theme') && localStorage.getItem('theme') == 'light') {
+
+        theme = 'light';
+    }
+
     useEffect(() => {
         async function fetchUserInfo() {
             const res = await fetch(`${process.env.REACT_APP_API}/api/users/settings/profile`, {
@@ -92,6 +101,7 @@ export default function Settings() {
         <div >
             <span>Theme:</span>
             <select
+                value={theme}
                 onChange={changeTheme}
                 className="ml-2 p-2 dark:text-black">
                 <option value="light">Light mode</option>
@@ -155,7 +165,7 @@ export default function Settings() {
 
             </div>
         ))}
-        
+
         <center>
             <Link to='/settings/edit'>
                 <button

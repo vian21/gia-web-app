@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 
 import Cookies from 'js-cookie';
 
-export default function Comments(props) {
-    const id = props.post;
+export default function Comments({post}) {
+    const id = post;
     const token = Cookies.get('token');
 
     const [comments, setComments] = useState([]);

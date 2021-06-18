@@ -6,11 +6,11 @@ export default function Footer() {
      * the footer is designed to suit mobile phone and uses media queries for larger screens
      */
 
-    return <div className="mt-12 inline-block">
+    return <div className="mt-12 inline-block z-20">
         {/* Mobile Tab Bar*/}
         <div id="mobile"
             className="w-full bg-green-300 object-bottom bottom-0 fixed text-center text-white p-2 mt-3 lg:hidden 
-             grid grid-cols-4 justify-items-center">
+             grid grid-cols-4 justify-items-center z-10">
 
             {/* status */}
             <NavLink exact to='/status' activeClassName='text-blue-300'>

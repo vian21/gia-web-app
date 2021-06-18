@@ -62,6 +62,7 @@ export default function Post({ postId }) {
     function menuHandler(event) {
         event.preventDefault();
 
+        console.log(menu)
         if (token) {
             if (menu) {
                 setMenu(false)
@@ -128,18 +129,20 @@ export default function Post({ postId }) {
                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" /></svg>
                 </div>
 
-                {/* dropdown menu content */}
-                <div
-                    className={"w-2/5 top-20 overflow-hidden bg-white dark:bg-gray-900 z-40 right-0 absolute " + `${menu ? 'block' : 'hidden'}`}>
-                    <ul>
-                        <li
-                            className=" p-3 border-b-2 block">Save</li>
-                        <li
-                            onClick={deletePost}
-                            className=" p-3 border-b-2 block">Delete</li>
-                    </ul>
-                </div>
             </div>
+
+        </div>
+
+        {/* dropdown menu content */}
+        <div
+            className={"w-2/5 bg-white dark:bg-gray-900 z-40 right-0 absolute " + `${menu ? 'block' : 'hidden'}`}>
+            <ul>
+                <li
+                    className=" p-3 border-b-2 block">Save</li>
+                <li
+                    onClick={deletePost}
+                    className=" p-3 border-b-2 block">Delete</li>
+            </ul>
         </div>
 
         {/* Post content */}

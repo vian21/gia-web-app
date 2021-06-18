@@ -208,8 +208,9 @@ export default function Settings() {
                 className="p-2 inline-block">Gender:</span>
             <select
                 onChange={updateGender}
+                value={user.gender}
                 className="dark:text-black p-3">
-                <option value={user.gender}>{window.genders[user.gender]}</option>
+                {/* <option value={user.gender}>{window.genders[user.gender]}</option> */}
                 {window.genders.map((gender, index) => (
                     <option key={index} value={index}>{gender}</option>
                 ))}

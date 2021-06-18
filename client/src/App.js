@@ -2,6 +2,8 @@ import { Switch, Redirect, Route } from 'react-router-dom';
 import cookies from 'js-cookie';
 
 //pages
+import Home from './views/Home';
+
 import Login from './views/Login'
 import SignUp from './views/signup/index'
 
@@ -50,6 +52,9 @@ export default function App() {
         <Route exact path='/'>
           {authenticated(<div>
             <Navbar />
+
+            <Home />
+            
             <Footer />
           </div>)}
         </Route>

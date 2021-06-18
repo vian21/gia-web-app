@@ -8,9 +8,12 @@ const router = express.Router();
 const users = require('./users');
 const posts = require('./posts');
 
+const feed=require('./feed');
+
 router.use('/users', users);
 
 router.use('/posts', posts);
 
+router.use('/feed',feed)
 
 module.exports = router;
