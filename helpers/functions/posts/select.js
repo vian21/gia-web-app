@@ -15,6 +15,7 @@ const getPost = async (id, userId = 0) => {
         const userImage = await getUserImage(result[0].user);
 
         let selfLike = false;
+        let owner = false;
 
         //array of user ids
         let likedBy = JSON.parse(result[0].likedBy || '[]');
@@ -23,16 +24,22 @@ const getPost = async (id, userId = 0) => {
             selfLike = true
         }
 
+        //determine ownership of post
+        if (result[0].user == userId) {
+            owner = true
+        }
+
         //TODO: get info of user who like the post
 
         return {
             id: result[0].id,
             user: result[0].user,
             userName: userName,
+            selfLike: selfLike,
+            owner: owner,
+            likes: result[0].likes,
             userImage: userImage,
             time: dayjs(result[0].time).format('YYYY-MM-DD HH:mm'),
-            selfLike: selfLike,
-            likes: result[0].likes,
             likeBy: 0,
             location: result[0].location,
             attachments: JSON.parse(result[0].attachments || null),

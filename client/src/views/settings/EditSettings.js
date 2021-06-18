@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import cookies from 'js-cookie';
 
 export default function Settings() {
     const token = cookies.get('token');
+    const history = useHistory();
 
     const [user, setUser] = useState({});
     const [contacts, setContacts] = useState([]);
@@ -156,6 +157,31 @@ export default function Settings() {
         }
     }
 
+    const deleteAccount = async (event) => {
+        event.preventDefault();
+
+        if (window.confirm("Are you sure your want to delete your account?")) {
+            const res = await fetch(`${process.env.REACT_APP_API}/api/users/delete`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                }
+            });
+
+            const data = await res.json();
+
+            console.log(data)
+            if (data.error) {
+                alert("Failed to delete your account!");
+            }
+
+            if (data.success) {
+                alert("Account deleted! We are sad to see you leave!");
+                history.push('/logout');
+            }
+        }
+
+    }
 
     //render function
     return <div
@@ -254,6 +280,7 @@ export default function Settings() {
             </Link>
 
             <button
+                onClick={deleteAccount}
                 className="w-5/6 text-white p-3 bg-red-300">Delete Account!</button>
         </center>
 

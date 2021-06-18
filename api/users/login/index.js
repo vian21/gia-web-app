@@ -15,25 +15,27 @@ router.post('/', async (req, res) => {
     let query = 'SELECT * FROM users ';
 
     if (validator.isEmail(data.email)) {
-        query += `WHERE email='${data.email}';`;
+        query += `WHERE email='${data.email}' `;
     } else {
-        query += `WHERE idNumber = ${data.email};`;
+        query += `WHERE idNumber = ${data.email} `;
     }
 
-    const [result] = await db.query(query)
+    query += `AND accountActive=1;`
 
+    const [result] = await db.query(query)
         .catch(error => {
             console.log(error)
         })
 
-    if (result == '') {
-        res.json({ error: "Account not found!" })
+    if (result.length == 0) {
+        res.json({ error: "Account not found or not activated!" });
+
     } else {
         bcrypt.compare(data.password, result[0].password, (error, match) => {
             if (error) throw error
 
             if (!match) {
-                res.json({ error: "Wrong password" })
+                res.json({ error: "Wrong password!" });
             }
             else {
                 //create a user object with data to be sent in JWT 

@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import cookies from 'js-cookie';
 
 export default function Login() {
+    const history = useHistory();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -45,9 +46,9 @@ export default function Login() {
                     path: '/',
                     secure: false
                 })) {
+
                     window.location.replace("/");
                 }
-
 
             }
 
@@ -75,7 +76,7 @@ export default function Login() {
                 placeholder="Enter your password"
                 required />
 
-            <span className="">{error}</span>
+            <span className="dark:text-white">{error}</span>
 
             <button
                 className="w-full p-3 border-solid border-grey-300 border-2 bg-blue-400 text-white mb-4">Login</button>

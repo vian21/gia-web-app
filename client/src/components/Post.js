@@ -62,7 +62,6 @@ export default function Post({ postId }) {
     function menuHandler(event) {
         event.preventDefault();
 
-        console.log(menu)
         if (token) {
             if (menu) {
                 setMenu(false)
@@ -76,7 +75,7 @@ export default function Post({ postId }) {
     }
 
     async function deletePost() {
-        if (token) {
+        if (token && post.owner) {
 
             if (window.confirm("Are you sure you want to delete post?")) {
                 const res = await fetch(`${process.env.REACT_APP_API}/api/posts/${id}/delete`, {
@@ -139,9 +138,10 @@ export default function Post({ postId }) {
             <ul>
                 <li
                     className=" p-3 border-b-2 block">Save</li>
-                <li
+                {post.owner && <li
                     onClick={deletePost}
                     className=" p-3 border-b-2 block">Delete</li>
+                }
             </ul>
         </div>
 

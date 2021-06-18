@@ -7,6 +7,9 @@ const settings = require('./settings');
 
 const update = require('./update');
 
+const deleteAccount = require('./delete.js');
+
+
 const authenticated = require('../../helpers/authenticated');
 
 router.use('/login', login);
@@ -16,6 +19,8 @@ router.use('/signup', signup);
 router.use('/settings', authenticated, settings);
 
 router.use('/update', authenticated, update);
+
+router.use('/delete', authenticated, deleteAccount);
 
 
 module.exports = router;

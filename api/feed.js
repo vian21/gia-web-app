@@ -10,7 +10,7 @@ router.post('/', authenticated, async (req, res) => {
 
     const offSet = req.body.offSet || 0;
 
-    const [result] = await db.execute('SELECT * FROM posts LIMIT ?,20', [offSet])
+    const [result] = await db.execute('SELECT id FROM posts LIMIT ?,20', [offSet])
         .catch(console.log);
 
     res.json({
