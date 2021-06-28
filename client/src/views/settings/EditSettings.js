@@ -170,7 +170,6 @@ export default function Settings() {
 
             const data = await res.json();
 
-            console.log(data)
             if (data.error) {
                 alert("Failed to delete your account!");
             }

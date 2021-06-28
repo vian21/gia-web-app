@@ -9,6 +9,8 @@ export default function Home() {
 
     const [feed, setFeed] = useState([]);
 
+    let offSet = 0;
+
     async function getFeed(offSet = 0) {
         const res = await fetch(`${process.env.REACT_APP_API}/api/feed`, {
             method: 'POST',

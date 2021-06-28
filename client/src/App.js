@@ -3,6 +3,8 @@ import cookies from 'js-cookie';
 
 //pages
 import Home from './views/Home';
+import StatusView from './views/Status';
+
 
 import Login from './views/Login'
 import Logout from './views/Logout'
@@ -35,7 +37,7 @@ export default function App() {
     document.documentElement.classList.remove('dark');
   }
 
-  document.getElementById('root').classList.add("dark:bg-gray-900", "dark:text-white")
+  document.getElementById('root').classList.add("h-screen", "dark:bg-gray-900", "dark:text-white")
 
 
   const authenticated = (page) => {
@@ -48,7 +50,7 @@ export default function App() {
   }
 
   return (
-    <div className="">
+    <div className="h-full">
       <Switch>
         {/* UI pages */}
         <Route exact path='/'>
@@ -56,7 +58,17 @@ export default function App() {
             <Navbar />
 
             <Home />
-            
+
+            <Footer />
+          </div>)}
+        </Route>
+
+        <Route exact path='/status'>
+          {authenticated(<div className="h-full">
+            {/* <Navbar /> */}
+
+            <StatusView />
+
             <Footer />
           </div>)}
         </Route>
@@ -94,8 +106,8 @@ export default function App() {
           <Login />
         </Route>
 
-         {/* Logout */}
-         <Route exact path='/logout'>
+        {/* Logout */}
+        <Route exact path='/logout'>
           <Logout />
         </Route>
 
