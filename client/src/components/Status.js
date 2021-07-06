@@ -15,11 +15,11 @@ import "swiper/components/navigation/navigation.min.css"
 
 // import Swiper core and required modules
 import SwiperCore, {
-  Navigation
+    Autoplay, Navigation
 } from 'swiper/core';
 
 // install Swiper modules
-SwiperCore.use([Navigation]);
+SwiperCore.use([Autoplay, Navigation]);
 
 
 export default function Status({ statusId }) {
@@ -154,6 +154,11 @@ export default function Status({ statusId }) {
             //Image
             if (status.type) {
                 return <Swiper
+                    autoplay={{
+                        "delay": 6000,
+                        "disableOnInteraction": false,
+                        "stopOnLastSlide": true
+                    }}
                     navigation={true}
                     allowTouchMove={false}
                     className="w-full h-full z-10">
@@ -182,21 +187,21 @@ export default function Status({ statusId }) {
                 >
                     <center>
                         <div className="pt-60 px-5">{status.text}</div>
-                        </center>
+                    </center>
                 </div>
             }
         })()}
 
 
-<style jsx>
-   {`
+        <style jsx>
+            {`
    .swiper-button-prev,.swiper-button-next{
        width:50%;
        height:100%;
        opacity:0;
     z-index:50;
    }`}
-</style>
+        </style>
         {/* text of status (for image status which also have caption) */}
         {/* <div className="bottom-10 absolute text-white z-50 text-xl  w-full">
             <center>

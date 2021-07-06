@@ -3,7 +3,8 @@ import cookies from 'js-cookie';
 
 //pages
 import Home from './views/Home';
-import StatusView from './views/Status';
+import StatusList from './views/StatusList';
+import StatusView from './views/StatusView';
 
 
 import Login from './views/Login'
@@ -64,6 +65,16 @@ export default function App() {
         </Route>
 
         <Route exact path='/status'>
+          {authenticated(<div className="h-full">
+            {/* <Navbar /> */}
+
+            <StatusList />
+
+            <Footer />
+          </div>)}
+        </Route>
+
+        <Route exact path='/status/:index'>
           {authenticated(<div className="h-full">
             {/* <Navbar /> */}
 

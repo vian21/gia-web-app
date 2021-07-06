@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Cookies from 'js-cookie';
 
-import Status from '../components/Status';
-
-export default function StatusView() {
+export default function StatusList() {
 
     const token = Cookies.get('token');
 
@@ -47,7 +45,7 @@ export default function StatusView() {
                 return <div className="h-full w-full">
                     {
                         users.map((user, index) => {
-                            return <Link to={`/status/` + user.user}>
+                            return <Link to={`/status/` + index} key={index}>
                                 <div
                                     className="flex mb-5"
                                     key={index}>
