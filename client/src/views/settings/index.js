@@ -10,10 +10,10 @@ export default function Settings() {
     const [posts, setPosts] = useState([]);
 
     let theme = 'system';
-    if (localStorage.getItem('theme') && localStorage.getItem('theme') == 'dark') {
+    if (localStorage.getItem('theme') && localStorage.getItem('theme') === 'dark') {
         theme = 'dark';
     }
-    if (localStorage.getItem('theme') && localStorage.getItem('theme') == 'light') {
+    if (localStorage.getItem('theme') && localStorage.getItem('theme') === 'light') {
 
         theme = 'light';
     }

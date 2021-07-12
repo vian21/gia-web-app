@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import cookies from 'js-cookie';
 
 export default function Login() {
-    const history = useHistory();
+    // const history = useHistory();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

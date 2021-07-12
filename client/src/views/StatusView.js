@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import Cookies from 'js-cookie';
 
@@ -24,7 +24,7 @@ SwiperCore.use([Autoplay, EffectCube]);
 
 export default function StatusView() {
     const { index } = useParams();
-    const history = useHistory();
+    // const history = useHistory();
 
     const token = Cookies.get('token');
 

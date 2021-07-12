@@ -27,11 +27,7 @@ const getStatus = async (id, userId = 0) => {
             userName: userName,
             owner: owner,
             userImage: userImage,
-            time: dayjs(result[0].time).format('YYYY-MM-DD HH:mm'),
-            location: result[0].location,
             attachments: JSON.parse(result[0].attachments || null),
-            text: result[0].text,
-            type: result[0].type,
         }
     }
 

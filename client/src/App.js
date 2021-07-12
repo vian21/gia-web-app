@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom';
 import cookies from 'js-cookie';
 
@@ -5,6 +6,8 @@ import cookies from 'js-cookie';
 import Home from './views/Home';
 import StatusList from './views/StatusList';
 import StatusView from './views/StatusView';
+
+import Chat from './views/Chat';
 
 
 import Login from './views/Login'
@@ -25,6 +28,7 @@ import SetPassword from './views/signup/SetPassword';
 
 //UI
 import PostView from './views/Post';
+
 
 export default function App() {
 
@@ -64,6 +68,13 @@ export default function App() {
           </div>)}
         </Route>
 
+        <Route exact path='/chat'>
+          {authenticated(<div className="h-full">
+
+            <Chat />
+            <Footer />
+          </div>)}
+        </Route>
         <Route exact path='/status'>
           {authenticated(<div className="h-full">
             {/* <Navbar /> */}

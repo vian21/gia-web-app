@@ -1,13 +1,32 @@
 const express = require('express')
 const app = express()
 
+require('dotenv').config();
+
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"],
+
+    }
+});
+
+
+const { chats } = require('./api/chats');
+
 const path = require('path');
 const cors = require('cors')
 const compression = require('compression')
 const bodyParser = require('body-parser')                       //used to get data from client
 const cookieParser = require('cookie-parser');
 
+const jwt = require('jsonwebtoken');
+
 const api = require('./api');
+const authenticated = require('./helpers/authenticated');
 
 const PORT = process.env.PORT || 5000;
 
@@ -24,7 +43,7 @@ app.use(bodyParser.json())                                    //parse json from 
 /*
  * API routes
  */
-app.use('/api',api);
+app.use('/api', api);
 
 //public folder
 app.use(express.static(path.resolve(__dirname, 'public')));
@@ -33,6 +52,43 @@ app.use(express.static(path.resolve(__dirname, 'public')));
 app.use((req, res) => {
     res.status(404).send(notFound)
 })
+
+//socket.io 
+
+//Authentication
+io.use((socket, next) => {
+    if (socket.handshake.auth.token) {
+        const token = socket.handshake.auth.token;
+
+        //verify token
+        jwt.verify(token, process.env.JWT_KEY, (error, decoded) => {
+            if (error) {
+
+                next(new Error('Please login!'))
+
+            } else {
+                next();
+            }
+        })
+    } else {
+        next(new Error('Please login!'))
+    }
+})
+
+//connection
+io.on('connection', (socket) => {
+
+    console.log('a user connected');
+
+    //listen to when client requests for all recent conversations
+    socket.on('conversations', (args) => {
+        chats(socket);
+    });
+
+    socket.on("disconnect", () => {
+        console.log("User disconnected!")
+    })
+});
 
 
 
@@ -46,4 +102,4 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-app.listen(PORT)
+server.listen(PORT)

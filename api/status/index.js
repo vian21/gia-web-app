@@ -14,7 +14,7 @@ router.post('/', authenticated, async (req, res) => {
 
     const offSet = req.body.offSet || 0;
 
-    const [results] = await db.execute('SELECT user FROM status  GROUP BY user ORDER BY time DESC LIMIT ?,20', [offSet])
+    const [results] = await db.execute('SELECT user FROM status  GROUP BY user ORDER BY id DESC LIMIT ?,20', [offSet])
         .catch(console.log);
 
     if (results.length == 0) {

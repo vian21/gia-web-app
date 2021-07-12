@@ -119,7 +119,7 @@ export default function Status({ statusId }) {
 
             <div className="w-4/5 p-3 m-auto">
                 <div>{status.userName}</div>
-                <div>{status.location}</div>
+                {/* <div>{status.location}</div> */}
             </div>
 
             {/* status dropdown menu */}
@@ -152,47 +152,53 @@ export default function Status({ statusId }) {
         {/* Status content */}
         {(() => {
             //Image
-            if (status.type) {
-                return <Swiper
-                    autoplay={{
-                        "delay": 6000,
-                        "disableOnInteraction": false,
-                        "stopOnLastSlide": true
-                    }}
-                    navigation={true}
-                    allowTouchMove={false}
-                    className="w-full h-full z-10">
-                    {status.attachments.map((attachment, index) => {
-
+            return <Swiper
+                autoplay={{
+                    "delay": 6000,
+                    "disableOnInteraction": false,
+                    "stopOnLastSlide": true
+                }}
+                navigation={true}
+                allowTouchMove={false}
+                className="w-full h-full z-10">
+                {status.attachments && status.attachments.map((attachment, index) => {
+                    if (attachment.type !== 'text') {
                         return < SwiperSlide
                             className="w-full h-full bg-gray-900"
                             key={index} >
                             <img
                                 className="w-full h-full object-contain"
-                                src={process.env.REACT_APP_API + '/images/' + attachment.image}
+                                src={process.env.REACT_APP_API + '/images/' + attachment.url}
                                 alt='Status img'
                                 loading="lazy" />
                             <center>
                                 <div className="absolute bottom-10 text-white text-xl w-full">{attachment.text}</div>
                             </center>
                         </SwiperSlide>
-                    })}
+                    }
+                    //Text status
+                    else {
+                        return < SwiperSlide
+                            className="w-full h-full bg-gray-900"
+                            key={index} ><div
+                                className="w-full h-full bg-gray-900 text-white text-2xl"
+                            >
+                                <center>
+                                    <div className="pt-60 px-5">{attachment.text}</div>
+                                </center>
+                            </div>
+                        </SwiperSlide>
+                    }
 
-                </Swiper>
-            }
-            //Text status
-            else {
-                return <div
-                    className="w-full h-full bg-gray-900 text-white text-2xl"
-                >
-                    <center>
-                        <div className="pt-60 px-5">{status.text}</div>
-                    </center>
-                </div>
-            }
+
+                })}
+
+            </Swiper>
+
+
         })()}
 
-
+        {/* 
         <style jsx>
             {`
    .swiper-button-prev,.swiper-button-next{
@@ -201,18 +207,7 @@ export default function Status({ statusId }) {
        opacity:0;
     z-index:50;
    }`}
-        </style>
-        {/* text of status (for image status which also have caption) */}
-        {/* <div className="bottom-10 absolute text-white z-50 text-xl  w-full">
-            <center>
-                {(() => {
-                    if (status.type) {
-                        return <div>{status.text}</div>
-                    }
-
-                })()}
-            </center>
-        </div> */}
+        </style> */}
 
     </div >;
 }

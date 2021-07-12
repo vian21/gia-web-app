@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
 import Post from '../components/Post';
-import Comments from '../components/Comments';
 
 export default function Home() {
     const token = Cookies.get('token');
 
     const [feed, setFeed] = useState([]);
 
-    let offSet = 0;
+    // let offSet = 0;
 
     async function getFeed(offSet = 0) {
         const res = await fetch(`${process.env.REACT_APP_API}/api/feed`, {
