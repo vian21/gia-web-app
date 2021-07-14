@@ -4,17 +4,20 @@ const { getUserImage, getUserName } = require('../../helpers/functions/users/sel
 const dayjs = require('dayjs');
 
 const conversations = async (userId) => {
+
     const [results] = await db.execute(`SELECT id, sender, receiver, time FROM chats WHERE sender = ? OR receiver = ? GROUP BY sender, receiver`, [userId, userId])
         .catch(error => console.log(error));
 
     if (results.length == 0) {
+
         return [];
-    } else {
-
-
+    }
+    else {
+        //array to contain all grouped conversations
         let conversations = [];
 
-        await Promise.all(results.map(async (result, index) => {
+        //loop through each row and fetch usernames and images
+        await Promise.all(results.map(async (result) => {
             const chat = (result.sender == userId) ? result.receiver : result.sender;
 
             await conversations.push({

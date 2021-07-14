@@ -56,17 +56,22 @@ app.use((req, res) => {
 //socket.io 
 
 //Authentication
-io.use((socket, next) => {
+io.use(async (socket, next) => {
     if (socket.handshake.auth.token) {
         const token = socket.handshake.auth.token;
 
         //verify token
-        jwt.verify(token, process.env.JWT_KEY, (error, decoded) => {
+        await jwt.verify(token, process.env.JWT_KEY, (error, decoded) => {
             if (error) {
+
+
 
                 next(new Error('Please login!'))
 
             } else {
+                //store user's id in socket instance
+                socket.user = decoded.id;
+
                 next();
             }
         })
@@ -78,12 +83,11 @@ io.use((socket, next) => {
 //connection
 io.on('connection', (socket) => {
 
+
     console.log('a user connected');
 
-    //listen to when client requests for all recent conversations
-    socket.on('conversations', (args) => {
-        chats(socket);
-    });
+    //chats handler/listener
+    chats(socket);
 
     socket.on("disconnect", () => {
         console.log("User disconnected!")

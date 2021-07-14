@@ -7,6 +7,7 @@ import Home from './views/Home';
 import StatusList from './views/StatusList';
 import StatusView from './views/StatusView';
 
+import Conversations from './views/Conversations';
 import Chat from './views/Chat';
 
 
@@ -71,10 +72,17 @@ export default function App() {
         <Route exact path='/chat'>
           {authenticated(<div className="h-full">
 
-            <Chat />
+            <Conversations />
             <Footer />
           </div>)}
         </Route>
+
+        <Route exact path='/chat/:userId'>
+          {authenticated(<div className="h-full">
+            <Chat />
+          </div>)}
+        </Route>
+
         <Route exact path='/status'>
           {authenticated(<div className="h-full">
             {/* <Navbar /> */}
