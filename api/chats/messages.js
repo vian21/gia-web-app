@@ -20,6 +20,7 @@ const getMessages = async (currentUser, userId, offSet = 0) => {
             if (result.sender == currentUser) {
                 owner = true;
             }
+            
             await messages.push({
                 id: result.id,
                 sender: result.sender,

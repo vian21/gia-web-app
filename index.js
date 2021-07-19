@@ -70,7 +70,7 @@ io.use(async (socket, next) => {
 
             } else {
                 //store user's id in socket instance
-                socket.user = decoded.id;
+                socket.userId = decoded.id;
 
                 next();
             }
@@ -87,7 +87,7 @@ io.on('connection', (socket) => {
     console.log('a user connected');
 
     //chats handler/listener
-    chats(socket);
+    chats(socket,io);
 
     socket.on("disconnect", () => {
         console.log("User disconnected!")

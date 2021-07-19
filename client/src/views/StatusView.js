@@ -30,10 +30,10 @@ export default function StatusView() {
 
     const [users, setUsers] = useState([]);
 
-    useEffect(async () => {
+    useEffect( () => {
 
         getStatuses();
-    }, [token]);
+    }, []);
 
     const getStatuses = async () => {
         const res = await fetch(`${process.env.REACT_APP_API}/api/status`, {

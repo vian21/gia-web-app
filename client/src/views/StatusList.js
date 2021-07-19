@@ -12,7 +12,7 @@ export default function StatusList() {
     useEffect(async () => {
 
         getUsers();
-    }, [token]);
+    }, []);
 
     const getUsers = async () => {
         const res = await fetch(`${process.env.REACT_APP_API}/api/status`, {

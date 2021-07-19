@@ -59,7 +59,7 @@ export default function Login() {
     return <div>
         <form
             onSubmit={handleSubmit}
-            className="w-4/5 m-auto p-3 pt-40 dark:text-black">
+            className="w-4/5 m-auto p-3 pt-40  dark:text-black">
             <h4 className="flex text-3xl justify-center mb-3 dark:text-white">Login</h4>
             <input
                 onChange={handleChangeEmail}

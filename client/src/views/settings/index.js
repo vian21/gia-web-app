@@ -34,7 +34,6 @@ export default function Settings() {
 
             if (data.success) {
                 setUser(data.success.data);
-
                 //store contacts array in state variable if not null
                 if (data.success.data.contacts) {
                     setContacts(data.success.data.contacts);
@@ -69,7 +68,6 @@ export default function Settings() {
 
     function changeTheme(event) {
         event.preventDefault();
-
         let choice = event.target.value;
 
         if (choice === 'system') {

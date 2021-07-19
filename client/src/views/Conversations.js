@@ -14,7 +14,6 @@ export default function Conversations() {
             //listen for a reply
             socket.on('conversations', (data) => {
                 if (conversations.length !== data.length) {
-                    console.log("new")
                     setConversations(data);
                 }
             })
