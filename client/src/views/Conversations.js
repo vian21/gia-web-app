@@ -7,19 +7,19 @@ export default function Conversations() {
     const [conversations, setConversations] = useState([]);
 
     useEffect(() => {
-        function load() {
-            //send  a fetch conversations request
-            socket.emit('conversations');
 
-            //listen for a reply
-            socket.on('conversations', (data) => {
-                if (conversations.length !== data.length) {
-                    setConversations(data);
-                }
-            })
+        //send  a fetch conversations request
+        socket.emit('conversations');
+
+        //listen for a reply
+        socket.on('conversations', (data) => {
+            if (conversations.length !== data.length) {
+                setConversations(data);
+            }
+        })
+        return () => {
+            socket.off('conversations');
         }
-
-        load();
     }, []);
 
     return <div>

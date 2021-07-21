@@ -10,11 +10,10 @@ export default function Chat() {
 
     const [chatInfo, setChatInfo] = useState({})
     const [messages, setMessages] = useState([]);
-    const [inRoom, setRoom] = useState(false);
+    // const [inRoom, setRoom] = useState(false);
 
 
     const message = useRef('');
-
 
     useEffect(() => {
 
@@ -23,13 +22,15 @@ export default function Chat() {
         //fetch chat users info
         socket.once('joinChat', (data) => {
             setChatInfo(data);
-
-
         })
 
         //emit('getMessage,from useId)
         socket.emit('getMessages', userId);
 
+        return () => {
+            socket.off('joinChat');
+            socket.emit('leave');
+        }
     }, [])
 
     socket.once('getMessages', (data) => {
@@ -38,15 +39,12 @@ export default function Chat() {
 
         //push new messsage to array
         temp = temp.concat(data);
-        console.log(temp)
         //update the messages state
-        // setMessages([...tempNew]);
         setMessages(temp)
     })
 
     const sendMessage = (event) => {
         event.preventDefault();
-
         const messageText = message.current.value;
 
         if (messageText.length !== 0) {

@@ -8,6 +8,7 @@ const { getUserImage, getUserName } = require('../../helpers/functions/users/sel
 const chats = async (socket, io) => {
     let room;
     let otherUser;
+
     socket.on('conversations', async () => {
         const chts = await conversations(socket.userId);
 
@@ -32,9 +33,13 @@ const chats = async (socket, io) => {
 
     })
 
+    //leaving a room, this will prevent from seing chats from other rooms when you are out
+    socket.on('leave', () => {
+        socket.leave(room);
+    })
+
     //listen for message requests
     socket.on('getMessages', async (userId) => {
-        console.log("here back", userId)
         const messages = await getMessages(socket.userId, userId);
 
         socket.emit('getMessages', messages)
