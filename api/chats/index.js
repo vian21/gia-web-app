@@ -1,6 +1,6 @@
 const conversations = require('./conversations');
 
-const { getMessages } = require('./messages');
+const { getMessages, saveMessage } = require('./messages');
 
 const { getUserImage, getUserName } = require('../../helpers/functions/users/select');
 
@@ -15,9 +15,11 @@ const chats = async (socket, io) => {
         socket.emit('conversations', chts);
     })
 
-    socket.on('joinChat', async (otherUser) => {
-        room = generateRoom(socket.userId, otherUser);
-        otherUser = otherUser;
+    socket.on('joinChat', async (otherUserId) => {
+
+        room = generateRoom(socket.userId, otherUserId);
+        otherUser = otherUserId;
+
         socket.leave(room);
 
         socket.join(room);
@@ -25,6 +27,7 @@ const chats = async (socket, io) => {
         // send chat info to user
         const chatInfo = {
             room,
+            myId:socket.userId,
             userName: await getUserName(otherUser),
             userImage: await getUserImage(otherUser)
         }
@@ -42,8 +45,7 @@ const chats = async (socket, io) => {
     socket.on('getMessages', async (userId) => {
         const messages = await getMessages(socket.userId, userId);
 
-        socket.emit('getMessages', messages)
-
+        socket.emit('getMessages', messages);
     })
 
     socket.on('sendMessage', (message) => {
@@ -52,16 +54,23 @@ const chats = async (socket, io) => {
 
         const time = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
 
-        const messageObj = {
-            sender: socket.userId,
-            receiver: otherUser,
-            body: {
-                text: message,
-                time: time,
-            }
+        const sender = socket.userId;
+        const receiver = otherUser;
+        const body = {
+            text: message,
+            time: time,
         }
 
-        io.to(room).emit('getMessages', messageObj)
+        const messageObj = {
+            sender: sender,
+            receiver: otherUser,
+            body: body,
+        }
+
+        io.to(room).emit('getMessages', messageObj);
+
+        //save message in database
+        saveMessage(sender, receiver, JSON.stringify(body), time);
     })
 
 }

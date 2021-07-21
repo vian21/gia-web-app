@@ -20,7 +20,7 @@ const getMessages = async (currentUser, userId, offSet = 0) => {
             if (result.sender == currentUser) {
                 owner = true;
             }
-            
+
             await messages.push({
                 id: result.id,
                 sender: result.sender,
@@ -36,6 +36,20 @@ const getMessages = async (currentUser, userId, offSet = 0) => {
     }
 }
 
+const saveMessage = async (sender, receiver, body, time) => {
+
+    const [result] = await db.execute(`INSERT INTO chats(sender, receiver, body, time) 
+                VALUES(${sender},${receiver},'${body}','${time}')`)
+        .catch(console.log());
+
+
+    if (result.affectedRows) {
+        return true;
+    } else {
+        return false;
+    }
+}
 module.exports = {
     getMessages,
+    saveMessage,
 }

@@ -37,6 +37,7 @@ export default function StatusList() {
         <h1
             className="dark:text-white p-3 text-2xl "
         >Status</h1>
+
         {(() => {
             if (users.length === 0) {
                 return <p

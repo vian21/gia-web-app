@@ -10,10 +10,9 @@ export default function Chat() {
 
     const [chatInfo, setChatInfo] = useState({})
     const [messages, setMessages] = useState([]);
-    // const [inRoom, setRoom] = useState(false);
-
 
     const message = useRef('');
+    const messagesEnd = useRef('');
 
     useEffect(() => {
 
@@ -40,7 +39,8 @@ export default function Chat() {
         //push new messsage to array
         temp = temp.concat(data);
         //update the messages state
-        setMessages(temp)
+        setMessages(temp);
+        // scrollToBottom();
     })
 
     const sendMessage = (event) => {
@@ -55,6 +55,9 @@ export default function Chat() {
             message.current.value = '';
         }
     }
+    const scrollToBottom = () => {
+        messagesEnd.current.scrollIntoView({ behavior: "smooth" });
+    };
 
     return <div className="h-full w-full">
         {/* NavBar */}
@@ -102,15 +105,15 @@ export default function Chat() {
         {/* messages container */}
         <div
             id="messageContainer"
-            className="w-full">
+            className="h-4/5 overflow-scroll w-full">
             {messages && messages.map((message, index) => {
 
-                return <Message key={index} message={message} />
+                return <Message key={index} message={message} userId={chatInfo.myId} />
             })}
         </div>
-
+        <div ref={messagesEnd} />
         {/* message form */}
-        <div className="bottom-0 w-full fixed">
+        <div className="bottom-0 mt-12 w-full fixed">
             <form onSubmit={sendMessage}>
 
                 <input

@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom';
 import cookies from 'js-cookie';
 
