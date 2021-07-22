@@ -91,7 +91,7 @@ export default function Settings() {
 
     }
     return <div
-        className="w-96 m-auto text-lg">
+        className="h-full m-auto overflow-x-scroll text-lg w-full">
         <img
             className="w-4/5 m-auto pt-2 pb-4 rounded-full"
             src={user.profilePicture || `${process.env.REACT_APP_API}/images/defaultIcon.png`} alt='userImage' />

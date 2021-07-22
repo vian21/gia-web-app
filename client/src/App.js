@@ -112,7 +112,7 @@ export default function App() {
 
         {/* setting tab */}
         <Route exact path='/settings'>
-          {authenticated(<div>
+          {authenticated(<div className="h-full">
             <Navbar />
 
             <Settings />
@@ -122,7 +122,7 @@ export default function App() {
         </Route>
 
         <Route exact path='/settings/edit'>
-          {authenticated(<div>
+          {authenticated(<div className="h-full">
 
             <EditSettings />
 

@@ -1,4 +1,4 @@
-const conversations = require('./conversations');
+const { conversations, searchConversation } = require('./conversations');
 
 const { getMessages, saveMessage } = require('./messages');
 
@@ -15,6 +15,12 @@ const chats = async (socket, io) => {
         socket.emit('conversations', chts);
     })
 
+    socket.on('searchConversation', async (data) => {
+        const results = await searchConversation(data, socket.userId);
+
+        socket.emit('searchConversation', results);
+    })
+
     socket.on('joinChat', async (otherUserId) => {
 
         room = generateRoom(socket.userId, otherUserId);
@@ -27,7 +33,7 @@ const chats = async (socket, io) => {
         // send chat info to user
         const chatInfo = {
             room,
-            myId:socket.userId,
+            myId: socket.userId,
             userName: await getUserName(otherUser),
             userImage: await getUserImage(otherUser)
         }

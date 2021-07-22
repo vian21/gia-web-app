@@ -33,7 +33,7 @@ export default function StatusList() {
         }
     }
 
-    return <div className="h-full w-full">
+    return <div className="h-5/6 overflow-scroll w-full">
         <h1
             className="dark:text-white p-3 text-2xl "
         >Status</h1>

@@ -1,6 +1,7 @@
 export default function Message({ message, userId }) {
     /**
-     * For message send over socket.io without saving them to dabase
+     * For messages sent over socket.io
+     * They are not saved in the database before being sent and don't have message.owner property
      * Le the client determine if the message is send by its current user or another
      */
     if (!message.owner) {

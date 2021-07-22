@@ -5,6 +5,7 @@ import socket from "../socket";
 
 export default function Conversations() {
     const [conversations, setConversations] = useState([]);
+    const [search, setSearch] = useState("");
 
     useEffect(() => {
         //send  a fetch conversations request
@@ -21,9 +22,38 @@ export default function Conversations() {
         };
     }, []);
 
+    const searchHandler = (event) => {
+        event.preventDefault();
+        // setSearch(event.target.value);  //useState is behind
+        const search = event.target.value;
+
+        socket.emit("searchConversation", search)
+    }
+
+    socket.on('searchConversation', (data) => {
+        if (data !== false) {
+            setConversations(data);
+
+        } else {
+            setConversations([])
+        }
+    })
     return (
         <div>
-            <h1 className="text-3xl p-3">Chats</h1>
+            <h1 className="text-4xl p-3">Chats</h1>
+
+            {/* Chat search form */}
+            <center>
+                <form
+                    className="m-auto my-4 w-full">
+                    <input
+                        className="p-1 text-black rounded-lg w-11/12"
+                        onChange={searchHandler}
+                        placeholder="Search"
+                        type="text" />
+                </form>
+            </center>
+
             {(() => {
                 if (conversations.length === 0) {
                     return <p className="p-3">No conversations</p>;

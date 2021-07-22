@@ -34,4 +34,39 @@ const conversations = async (userId) => {
     }
 }
 
-module.exports = conversations;
+const searchConversation = async (criteria, userId = 0) => {
+    const prep = `%${criteria}%`;
+
+    const [results] = await db.execute(`SELECT id, name, email, profilePicture, idNumber FROM users
+     WHERE name LIKE ? OR email LIKE ? OR idNumber LIKE ?`, [prep, prep, prep])
+        .catch(console.log());
+
+    if (results.length == 0) {
+        return false;
+
+    }
+    else {
+        //array to contain all grouped conversations
+        let conversations = [];
+
+        //loop through each row and fetch usernames and images
+        await Promise.all(results.map(async (result) => {
+            if (result.id !== userId) {
+                await conversations.push({
+                    userId: result.id,
+                    user: result.name,
+                    userImage: result.profilePicture,
+                    // time: dayjs(result.time).format('YYYY-MM-DD HH:mm'),
+
+                })
+            }
+
+        }))
+
+        return conversations;
+    }
+}
+module.exports = {
+    conversations,
+    searchConversation,
+};
