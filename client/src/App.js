@@ -104,7 +104,7 @@ export default function App() {
 
         {/* Post */}
         <Route exact path='/posts/:id'>
-          <div>
+          <div className="h-full">
             <PostView />
             <Footer />
           </div>

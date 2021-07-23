@@ -4,6 +4,8 @@ const router = express.Router();
 const saveComment = require('./save');
 const getComments = require('../../../helpers/functions/posts/comments/select').getComments;
 
+router.use('/comments/save', saveComment);
+
 router.post('/:id/comments', async (req, res) => {
     const postId = req.params.id;
     const comments = await getComments(postId, 0)
@@ -39,6 +41,5 @@ router.post('/:id/comments/:offSet', async (req, res) => {
         res.json({ error: 'No comments' })
     }
 })
-router.use('/comments/save', saveComment);
 
 module.exports = router;

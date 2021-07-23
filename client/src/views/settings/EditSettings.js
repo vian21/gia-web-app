@@ -10,6 +10,7 @@ export default function Settings() {
     const [user, setUser] = useState({});
     const [contacts, setContacts] = useState([]);
 
+    const [imageError, setImageError] = useState('');
     const [idError, setIdError] = useState('');
     const [nameError, setNameError] = useState('');
     const [emailError, setEmailError] = useState('');
@@ -64,6 +65,33 @@ export default function Settings() {
         }
         if (data.success) {
             return true;
+        }
+    }
+
+    //update profile picture
+    const updateProfilePicture = async (event) => {
+        const body = new FormData();
+        body.append('media', event.target.files[0]);
+
+        const res = await fetch(`${process.env.REACT_APP_API}/api/users/update/profilePicture`, {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            body: body,
+        })
+
+        const data = await res.json();
+
+        if (data.error) {
+            setImageError("Failed to save image!");
+
+            setTimeout(() => {
+                setNameError('');
+            }, 1500)
+        } else {
+            document.getElementById('profile').src = `${process.env.REACT_APP_API}/media/${data.success}`;
+
         }
     }
 
@@ -188,8 +216,12 @@ export default function Settings() {
 
         <img
             className="w-4/5 m-auto pt-2 pb-4"
-            src={user.profilePicture || `${process.env.REACT_APP_API}/images/defaultIcon.png`} alt='userImage' />
+            id="profile"
+            src={`${process.env.REACT_APP_API}/media/${user.profilePicture || `defaultIcon.png`}`}
+            alt='userImage' />
 
+        <input type="file" onChange={updateProfilePicture} />
+        {imageError}
         <div
             className="">
             <span

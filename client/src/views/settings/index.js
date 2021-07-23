@@ -94,7 +94,7 @@ export default function Settings() {
         className="h-full m-auto overflow-x-scroll text-lg w-full">
         <img
             className="w-4/5 m-auto pt-2 pb-4 rounded-full"
-            src={user.profilePicture || `${process.env.REACT_APP_API}/images/defaultIcon.png`} alt='userImage' />
+            src={`${process.env.REACT_APP_API}/media/${user.profilePicture || `defaultIcon.png`}`} alt='userImage' />
         {/* dark mode toggler */}
         <div >
             <span>Theme:</span>
@@ -183,14 +183,14 @@ export default function Settings() {
                  * display only image posts :)
                  * Todo: show preview of text posts
                  */
-                if (post.type) {
+                if (post.attachments[0].type === 'image') {
                     return <div
                         key={index}
                         className="">
                         <Link to={'/posts/' + post.id}>
                             <img
                                 className="w-full"
-                                src={`${process.env.REACT_APP_API}/images/` + post.attachments[0]} alt='' />
+                                src={`${process.env.REACT_APP_API}/media/` + post.attachments[0].url} alt='' />
                         </Link>
                     </div>
                 } else {

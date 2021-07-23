@@ -68,10 +68,7 @@ export default function Conversations() {
                                             <div className="w-2/12 mx-3">
                                                 <img
                                                     className="w-full"
-                                                    src={
-                                                        chat.userImage ||
-                                                        `${process.env.REACT_APP_API}/images/defaultIcon.png`
-                                                    }
+                                                    src={`${process.env.REACT_APP_API}/media/${chat.userImage || `defaultIcon.png`}`}
                                                     alt="userImage"
                                                 />
                                             </div>

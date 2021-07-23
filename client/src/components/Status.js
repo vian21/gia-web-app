@@ -112,7 +112,7 @@ export default function Status({ statusId }) {
             className="w-full flex z-50 absolute">
             <div className="w-1/5 float-left p-3">
                 <img className="w-full rounded-full"
-                    src={status.userImage || process.env.REACT_APP_API + '/images/defaultIcon.png'}
+                    src={`${process.env.REACT_APP_API}/media/${status.userImage || `defaultIcon.png`}`}
                     alt="User pic"
                     loading="lazy" />
             </div>
@@ -168,7 +168,7 @@ export default function Status({ statusId }) {
                             key={index} >
                             <img
                                 className="w-full h-full object-contain"
-                                src={process.env.REACT_APP_API + '/images/' + attachment.url}
+                                src={process.env.REACT_APP_API + '/media/' + attachment.url}
                                 alt='Status img'
                                 loading="lazy" />
                             <center>

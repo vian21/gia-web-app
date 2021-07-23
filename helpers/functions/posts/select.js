@@ -42,9 +42,8 @@ const getPost = async (id, userId = 0) => {
             time: dayjs(result[0].time).format('YYYY-MM-DD HH:mm'),
             likeBy: 0,
             location: result[0].location,
-            attachments: JSON.parse(result[0].attachments || null),
+            attachments: JSON.parse(result[0].attachments || '[]'),
             text: result[0].text,
-            type: result[0].type,
         }
     }
 

@@ -1,5 +1,18 @@
 const db = require('../../db');
 
+const updateProfilePicture = async (id, image) => {
+    const [result] = await db.execute(`UPDATE users set profilePicture = ? WHERE id = ?`, [image, id])
+        .catch(console.log)
+
+    if (result.affectedRows) {
+        return true;
+
+    } else {
+        return false;
+    }
+
+}
+
 const updateIdNumber = async (id, idNumber) => {
     const [result] = await db.execute(`UPDATE users set idNumber = ? WHERE id = ?`, [idNumber, id])
         .catch(console.log)
@@ -77,6 +90,7 @@ const updateContact = async (id, value) => {
 }
 
 module.exports = {
+    updateProfilePicture,
     updateIdNumber,
     updateName,
     updateEmail,

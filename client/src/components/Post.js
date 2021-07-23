@@ -108,7 +108,7 @@ export default function Post({ postId }) {
             className="w-full flex">
             <div className="w-1/5 float-left p-3">
                 <img className="w-full rounded-full"
-                    src={post.userImage || process.env.REACT_APP_API + '/images/defaultIcon.png'}
+                    src={`${process.env.REACT_APP_API}/media/${post.userImage || `defaultIcon.png`}`}
                     alt="User pic"
                     loading="lazy" />
             </div>
@@ -147,31 +147,37 @@ export default function Post({ postId }) {
 
         {/* Post content */}
         {(() => {
-            //Image
-            if (post.type) {
-                return <Swiper
-                    pagination={true}
-                    className="w-full">
-                    {post.attachments.map((attachment, index) => {
 
+            return <Swiper
+                pagination={true}
+                className="w-full">
+                {post.attachments ? post.attachments.map((attachment, index) => {
+                    if (attachment.type === 'image') {
                         return < SwiperSlide
                             className="w-full bg-gray-300"
                             key={index} >
                             <img
                                 className="w-full m-auto"
-                                src={process.env.REACT_APP_API + '/images/' + attachment}
+                                src={process.env.REACT_APP_API + '/media/' + attachment.url}
                                 height={window.innerWidth}
                                 alt='Post img'
                                 loading="lazy" />
                         </SwiperSlide>
-                    })}
+                    }
+                    //Text post
+                    else {
+                        return <SwiperSlide
+                            key={index}>
+                            <div
+                                className="m-auto p-3"
+                            >{post.text}</div>
+                        </SwiperSlide>
+                    }
 
-                </Swiper>
-            }
-            //Text post
-            else {
-                return <div>{post.text}</div>
-            }
+                }) : null}
+
+            </Swiper>
+
         })()}
 
 

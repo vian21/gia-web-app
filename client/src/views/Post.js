@@ -6,7 +6,7 @@ import Comments from '../components/Comments';
 export default function PostView() {
     const { id } = useParams();
 
-    return <div>
+    return <div className="h-5/6 overflow-x-scroll">
         <Post postId={id} />
         {/* comments section */}
         <Comments post={id} />

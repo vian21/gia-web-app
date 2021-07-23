@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import Cookies from 'js-cookie';
 
-export default function Comments({post}) {
+export default function Comments({ post }) {
     const id = post;
     const token = Cookies.get('token');
 
@@ -83,7 +83,7 @@ export default function Comments({post}) {
                                 {/* user image */}
                                 <div className="w-1/12 m-2">
                                     <img className="w-full rounded-full"
-                                        src={comment.userImage || process.env.REACT_APP_API + '/images/defaultIcon.png'}
+                                        src={`${process.env.REACT_APP_API}/media/${comment.userImage || `defaultIcon.png`}`}
                                         alt="User pic"
                                         loading="lazy" />
                                 </div>

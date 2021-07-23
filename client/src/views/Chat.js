@@ -65,7 +65,7 @@ export default function Chat() {
             className="w-full flex">
             <div className="w-1/5 float-left p-3">
                 <img className="w-full rounded-full"
-                    src={chatInfo.userImage || process.env.REACT_APP_API + '/images/defaultIcon.png'}
+                    src={`${process.env.REACT_APP_API}/media/${chatInfo.userImage || `defaultIcon.png`}`}
                     alt="User pic"
                     loading="lazy" />
             </div>

@@ -1,14 +1,23 @@
 const express = require('express');
 const router = express.Router();
 
-const updateIdNumber = require('../../../helpers/functions/users/update').updateIdNumber;
-const updateName = require('../../../helpers/functions/users/update').updateName;
-const updateEmail = require('../../../helpers/functions/users/update').updateEmail;
-const updateDOB = require('../../../helpers/functions/users/update').updateDOB;
-const updateGender = require('../../../helpers/functions/users/update').updateGender;
+const upload = require('../../../helpers/multer');
+
+const { updateProfilePicture, updateIdNumber, updateName, updateEmail, updateDOB, updateGender } = require('../../../helpers/functions/users/update');
 
 const getContacts = require('../../../helpers/functions/users/select').getContacts;
 const updateContact = require('../../../helpers/functions/users/update').updateContact;
+
+router.post('/profilePicture', upload.single('media'), async (req, res) => {
+    const media = req.file;
+
+    if (updateProfilePicture(res.locals.id, media.filename)) {
+        res.json({ success: media.filename });
+
+    } else {
+        res.json({ error: "Failed to save!" })
+    }
+});
 
 router.post('/idNumber', async (req, res) => {
     const data = req.body.idNumber

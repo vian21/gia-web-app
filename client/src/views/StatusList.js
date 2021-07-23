@@ -55,7 +55,8 @@ export default function StatusList() {
                                         className="w-2/12 mx-3">
                                         <img
                                             className="w-full"
-                                            src={user.userImage || `${process.env.REACT_APP_API}/images/defaultIcon.png`} alt='userImage'
+                                            src={`${process.env.REACT_APP_API}/media/${user.userImage || `defaultIcon.png`}`}
+                                            alt='userImage'
                                         />
                                     </div>
 
