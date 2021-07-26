@@ -7,13 +7,18 @@ const { updateProfilePicture, updateIdNumber, updateName, updateEmail, updateDOB
 
 const getContacts = require('../../../helpers/functions/users/select').getContacts;
 const updateContact = require('../../../helpers/functions/users/update').updateContact;
+const deleteFile = require('../../../helpers/deleteFile');
 
 router.post('/profilePicture', upload.single('media'), async (req, res) => {
+    const data = req.body;
     const media = req.file;
 
     if (updateProfilePicture(res.locals.id, media.filename)) {
         res.json({ success: media.filename });
 
+        //delete old profile picture [clean up]
+        deleteFile(data.oldImage);
+        
     } else {
         res.json({ error: "Failed to save!" })
     }

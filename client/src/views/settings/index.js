@@ -183,18 +183,20 @@ export default function Settings() {
                  * display only image posts :)
                  * Todo: show preview of text posts
                  */
-                if (post.attachments[0].type === 'image') {
-                    return <div
-                        key={index}
-                        className="">
-                        <Link to={'/posts/' + post.id}>
-                            <img
-                                className="w-full"
-                                src={`${process.env.REACT_APP_API}/media/` + post.attachments[0].url} alt='' />
-                        </Link>
-                    </div>
-                } else {
-                    return ''
+                if (post.attachments.length !== 0) {
+                    if (post.attachments[0].type === 'image') {
+                        return <div
+                            key={index}
+                            className="">
+                            <Link to={'/posts/' + post.id}>
+                                <img
+                                    className="w-full"
+                                    src={`${process.env.REACT_APP_API}/media/` + post.attachments[0].url} alt='' />
+                            </Link>
+                        </div>
+                    } else {
+                        return ''
+                    }
                 }
 
             })}

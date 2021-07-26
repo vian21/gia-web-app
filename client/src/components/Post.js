@@ -162,6 +162,7 @@ export default function Post({ postId }) {
                                 height={window.innerWidth}
                                 alt='Post img'
                                 loading="lazy" />
+                                {/* {attachment.text?<div>{attachment.text}</div>:null} */}
                         </SwiperSlide>
                     }
                     //Text post
@@ -170,7 +171,7 @@ export default function Post({ postId }) {
                             key={index}>
                             <div
                                 className="m-auto p-3"
-                            >{post.text}</div>
+                            >{attachment.text}</div>
                         </SwiperSlide>
                     }
 
@@ -201,7 +202,7 @@ export default function Post({ postId }) {
         {/* text of post (for image post which also have captio) */}
         <div>
             {(() => {
-                if (post.type) {
+                if (post.text) {
                     return <div>{post.text}</div>
                 }
 

@@ -28,6 +28,7 @@ import SetPassword from './views/signup/SetPassword';
 
 //UI
 import PostView from './views/Post';
+import NewPost from './views/NewPost';
 
 
 export default function App() {
@@ -103,6 +104,12 @@ export default function App() {
         </Route>
 
         {/* Post */}
+        <Route exact path='/posts/create'>
+          {authenticated(<div className="h-full">
+            <NewPost/>
+          </div>)}
+        </Route>
+        
         <Route exact path='/posts/:id'>
           <div className="h-full">
             <PostView />

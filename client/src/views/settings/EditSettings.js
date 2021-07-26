@@ -70,29 +70,39 @@ export default function Settings() {
 
     //update profile picture
     const updateProfilePicture = async (event) => {
-        const body = new FormData();
-        body.append('media', event.target.files[0]);
+        if (event.target.files[0] !== '') {
+            const body = new FormData();
+            body.append('media', event.target.files[0]);
+            body.append('oldImage', user.profilePicture);
 
-        const res = await fetch(`${process.env.REACT_APP_API}/api/users/update/profilePicture`, {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
-            body: body,
-        })
+            const res = await fetch(`${process.env.REACT_APP_API}/api/users/update/profilePicture`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                body: body,
+            })
 
-        const data = await res.json();
+            const data = await res.json();
 
-        if (data.error) {
-            setImageError("Failed to save image!");
+            if (data.error) {
+                setImageError("Failed to save image!");
 
-            setTimeout(() => {
-                setNameError('');
-            }, 1500)
-        } else {
-            document.getElementById('profile').src = `${process.env.REACT_APP_API}/media/${data.success}`;
+                setTimeout(() => {
+                    setNameError('');
+                }, 1500)
+            } else {
+                document.getElementById('profile').src = `${process.env.REACT_APP_API}/media/${data.success}`;
 
+                //update user's state
+                let temp = user;
+                temp.profilePicture = data.success;
+
+                setUser(temp);
+
+            }
         }
+
     }
 
     //idNumber
