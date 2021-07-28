@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 import Cookies from 'js-cookie';
 
+import socket from '../socket';
+
 export default function StatusList() {
 
     const token = Cookies.get('token');
@@ -11,27 +13,20 @@ export default function StatusList() {
 
     useEffect(async () => {
 
-        getUsers();
-    }, []);
-
-    const getUsers = async () => {
-        const res = await fetch(`${process.env.REACT_APP_API}/api/status`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token,
+        socket.emit('getStatuses');
+        socket.on('getStatuses', (data) => {
+            if (data.error) {
+                alert(data.error)
+            } else {
+                setUsers(data)
             }
+
         })
 
-        const data = await res.json();
-
-        if (data.error) {
-            alert(data.error)
+        return () => {
+            socket.off('getStatuses')
         }
-        if (data.success.data) {
-            setUsers(data.success.data)
-        }
-    }
+    }, []);
 
     return <div className="h-5/6 overflow-scroll w-full">
         <h1

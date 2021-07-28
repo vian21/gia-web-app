@@ -17,6 +17,7 @@ import "swiper/components/navigation/navigation.min.css"
 import SwiperCore, {
     Autoplay, Navigation
 } from 'swiper/core';
+import socket from '../socket';
 
 // install Swiper modules
 SwiperCore.use([Autoplay, Navigation]);
@@ -36,26 +37,18 @@ export default function Status({ statusId }) {
 
     //fetch status data
     useEffect(() => {
-        const getStatus = async () => {
-            const res = await fetch(`${process.env.REACT_APP_API}/api/status/${id}`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                }
-            })
+        socket.emit('status', id);
 
-            const data = await res.json()
-
+        socket.on('status', (data) => {
             if (data.error) {
                 alert(data.error);
             }
-            if (data.success) {
-                setStatus(data.success.data);
-
-            }
+            setStatus(data)
+        })
+        return () => {
+            socket.off('status')
         }
 
-        getStatus();
     }, [id, token]);
 
     function menuHandler(event) {

@@ -16,6 +16,9 @@ const io = new Server(server, {
 
 
 const { chats } = require('./api/chats');
+const status = require('./api/status');
+const feed = require('./api/feed');
+
 
 const path = require('path');
 const cors = require('cors')
@@ -26,7 +29,6 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
 const api = require('./api');
-const authenticated = require('./helpers/authenticated');
 
 const PORT = process.env.PORT || 5000;
 
@@ -87,7 +89,9 @@ io.on('connection', (socket) => {
     console.log('a user connected');
 
     //chats handler/listener
-    chats(socket,io);
+    chats(socket, io);
+    feed(socket,io);
+    status(socket, io)
 
     socket.on("disconnect", () => {
         console.log("User disconnected!")

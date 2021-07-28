@@ -1,49 +1,43 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 
 import Post from '../components/Post';
+import socket from '../socket';
 
 export default function Home() {
     const token = Cookies.get('token');
 
     const [feed, setFeed] = useState([]);
 
-    // let offSet = 0;
+    useEffect(() => {
+        socket.emit('feed');
+        return () => {
 
-    async function getFeed(offSet = 0) {
-        const res = await fetch(`${process.env.REACT_APP_API}/api/feed`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify({
-                offSet: offSet
-            })
-        });
+        }
+    }, [])
 
-        const data = await res.json();
-
+    socket.on('feed', (data) => {
         if (data.error) {
             alert(data.error)
         }
-
-        if (data.data.length !== 0) {
-            setFeed(data.data)
-        } else {
-
+        else {
+            setFeed(data)
         }
-
-    }
-
-    useEffect(() => {
-        getFeed();
-    }, [])
+    })
     return <div>
+        <center>
+            <Link to='/posts/create'>
+                <div>
+                    <button
+                        className="bg-blue-300 p-3 w-4/5">New Post</button>
+                </div>
+            </Link>
+        </center>
         {feed && feed.map((post, index) => {
-            return (<div key={index}>
+            return <div key={index}>
                 <Post postId={post.id} />
-            </div>)
+            </div>
         })}
     </div>
 }

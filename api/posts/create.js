@@ -29,9 +29,14 @@ router.post('/create', authenticated, upload.array('media', 10), async (req, res
     console.log(req.files)
     if (media) {
         await Promise.all(media.map(async (file) => {
+            let type = "image";
+
+            if (file.mimetype.includes('video')) {
+                type = "video";
+            }
             const attachment = {
                 url: file.filename,
-                type: "image",
+                type: type,
                 time: time
             }
 

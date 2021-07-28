@@ -19,6 +19,8 @@ import SwiperCore, {
     Autoplay, EffectCube
 } from 'swiper/core';
 
+import socket from '../socket';
+
 // install Swiper modules
 SwiperCore.use([Autoplay, EffectCube]);
 
@@ -30,29 +32,23 @@ export default function StatusView() {
 
     const [users, setUsers] = useState([]);
 
-    useEffect( () => {
+    useEffect(() => {
+        socket.emit('getStatuses');
+        socket.on('getStatuses', (data) => {
+            if (data.error) {
+                alert(data.error)
+            } else {
+                setUsers(data)
 
-        getStatuses();
-    }, []);
-
-    const getStatuses = async () => {
-        const res = await fetch(`${process.env.REACT_APP_API}/api/status`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token,
             }
+
         })
 
-        const data = await res.json();
+        return () => {
+            socket.off('getStatuses');
+        }
+    }, []);
 
-        if (data.error) {
-            alert(data.error)
-        }
-        if (data.success.data) {
-            setUsers(data.success.data)
-        }
-    }
 
     return <div className="h-full">
         <Swiper
@@ -65,7 +61,7 @@ export default function StatusView() {
             grabCursor={true}
             initialSlide={index}
             className="h-full">
-            {users.map((user, index) => {
+            {users ? users.map((user, index) => {
                 return <SwiperSlide className="h-full" key={index}>
                     <Swiper
                         className="h-full">
@@ -78,7 +74,7 @@ export default function StatusView() {
                         }
                     </Swiper>
                 </SwiperSlide>
-            })}
+            }) : null}
         </Swiper>
     </div >
 }

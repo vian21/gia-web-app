@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 
 import Cookies from 'js-cookie';
+import ReactPlayer from 'react-player'
 
 import LikeButton from '../components/LikeButton';
 
@@ -162,11 +163,30 @@ export default function Post({ postId }) {
                                 height={window.innerWidth}
                                 alt='Post img'
                                 loading="lazy" />
-                                {/* {attachment.text?<div>{attachment.text}</div>:null} */}
+                            {/* {attachment.text?<div>{attachment.text}</div>:null} */}
                         </SwiperSlide>
                     }
+
+                    //videos
+                    if (attachment.type === 'video') {
+                        return < SwiperSlide
+                            className="w-full bg-gray-300"
+                            key={index} >
+                            <ReactPlayer
+                                autoPlay
+                                className="w-full m-auto"
+                                controls
+                                height={window.innerWidth}
+                                loop
+                                pip={true}
+                                url={process.env.REACT_APP_API + '/media/' + attachment.url}
+                            />
+
+                        </SwiperSlide>
+                    }
+
                     //Text post
-                    else {
+                    if (attachment.type === 'text') {
                         return <SwiperSlide
                             key={index}>
                             <div
