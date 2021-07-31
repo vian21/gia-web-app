@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
+
+import { FooterContext } from "../context/FooterContext";
 
 import Post from '../components/Post';
 import socket from '../socket';
@@ -9,6 +11,8 @@ export default function Home() {
     const token = Cookies.get('token');
 
     const [feed, setFeed] = useState([]);
+
+    const { setNewFeed } = useContext(FooterContext)
 
     useEffect(() => {
         socket.emit('feed');
@@ -22,7 +26,8 @@ export default function Home() {
             alert(data.error)
         }
         else {
-            setFeed(data)
+            setFeed(data);
+            setNewFeed(false);
         }
     })
     return <div>

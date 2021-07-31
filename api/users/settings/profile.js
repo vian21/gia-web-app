@@ -3,7 +3,7 @@ const router = express.Router();
 
 const dayjs = require('dayjs')
 
-const db = require('../../../helpers/db');
+const { db } = require('../../../helpers/db');
 
 router.post('/', async (req, res) => {
     const [result] = await db.execute(`SELECT id,idNumber,name, email, contacts, profilePicture, DOB, gender FROM users WHERE id=?`, [res.locals.id])

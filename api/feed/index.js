@@ -1,18 +1,31 @@
-const db = require('../../helpers/db');
+const { db, listener, MySQLEvents } = require('../../helpers/db');
 
 const feed = async (socket, io) => {
-    socket.on('feed', async (offSet = 0) => {
-        const userId = socket.userId;
-
-
+    const getFeed = async (offSet = 0) => {
         const [result] = await db.execute('SELECT id FROM posts LIMIT ?,20', [offSet])
             .catch(console.log);
 
-        // res.json({
-        //     data: result
-        // });
+        return result;
+    }
 
-        socket.emit('feed', result);
+    // await listener.start();
+
+    // listener.addTrigger({
+    //     name: 'Feed',
+    //     expression: 'app.posts.*',
+    //     statement: MySQLEvents.STATEMENTS.ALL,
+    //     onEvent: (event) => { // You will receive the events here
+    //         console.log(event)
+    //         socket.emit('newFeed')
+    //     },
+    // });
+
+    socket.on('feed', async (offSet = 0) => {
+        const userId = socket.userId;
+
+        const feed = await getFeed(offSet);
+
+        socket.emit('feed', feed);
     })
 
 }

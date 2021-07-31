@@ -1,4 +1,4 @@
-const db = require('../../db');
+const {db} = require('../../db');
 
 const getContacts = async (id) => {
     const [result] = await db.execute('SELECT contacts FROM `users` WHERE id=?', [id]);

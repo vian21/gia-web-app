@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Cookies from 'js-cookie';
+
+import { FooterContext } from "../context/FooterContext";
+
 
 import socket from '../socket';
 
@@ -11,14 +14,19 @@ export default function StatusList() {
 
     const [users, setUsers] = useState([]);
 
+    const { setNewStatus } = useContext(FooterContext)
+
+
     useEffect(async () => {
 
         socket.emit('getStatuses');
         socket.on('getStatuses', (data) => {
             if (data.error) {
-                alert(data.error)
+                alert(data.error);
+
             } else {
-                setUsers(data)
+                setUsers(data);
+                setNewStatus(false);
             }
 
         })

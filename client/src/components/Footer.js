@@ -1,6 +1,11 @@
+import { useContext } from 'react';
+import { FooterContext } from '../context/FooterContext';
+
 import { NavLink } from 'react-router-dom';
 
 export default function Footer() {
+    const { newFeed, newStatus } = useContext(FooterContext);
+
     /*
      * Mobile first approach
      * the footer is designed to suit mobile phone and uses media queries for larger screens
@@ -14,7 +19,10 @@ export default function Footer() {
 
             {/* status */}
             <NavLink exact to='/status' activeClassName='text-blue-300'>
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z" /></svg>
+                <div className="relative">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z" /></svg>
+                    <div className={`absolute bg-red-500 inline-block right-0 rounded-full top-0 text-red-500 text-xs px-1 ${!newStatus ? 'hidden' : null}`}>o</div>
+                </div>
             </NavLink>
 
             {/* chat */}
@@ -24,7 +32,10 @@ export default function Footer() {
 
             {/* Home */}
             <NavLink exact to='/' activeClassName='text-blue-300'>
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                <div className="relative">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                    <div className={`absolute bg-red-500 inline-block right-0 rounded-full top-0 text-red-500 text-xs px-1 ${!newFeed ? 'hidden' : null}`}>o</div>
+                </div>
             </NavLink>
 
             {/* settings */}

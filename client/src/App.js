@@ -1,5 +1,6 @@
+import { useContext } from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom';
-import cookies from 'js-cookie';
+import cookies, { set } from 'js-cookie';
 
 //pages
 import Home from './views/Home';
@@ -29,7 +30,9 @@ import SetPassword from './views/signup/SetPassword';
 //UI
 import PostView from './views/Post';
 import NewPost from './views/NewPost';
+import { FooterProvider } from './context/FooterContext';
 
+import Listener from './components/Listener';
 
 export default function App() {
 
@@ -56,119 +59,122 @@ export default function App() {
   }
 
   return (
-    <div className="h-full">
-      <Switch>
-        {/* UI pages */}
-        <Route exact path='/'>
-          {authenticated(<div>
-            <Navbar />
+    <FooterProvider>
+      <Listener />
+      <div className="h-full">
+        <Switch>
+          {/* UI pages */}
+          <Route exact path='/'>
+            {authenticated(<div>
+              <Navbar />
 
-            <Home />
+              <Home />
 
-            <Footer />
-          </div>)}
-        </Route>
+              <Footer />
+            </div>)}
+          </Route>
 
-        <Route exact path='/chat'>
-          {authenticated(<div className="h-full">
+          <Route exact path='/chat'>
+            {authenticated(<div className="h-full">
 
-            <Conversations />
-            <Footer />
-          </div>)}
-        </Route>
+              <Conversations />
+              <Footer />
+            </div>)}
+          </Route>
 
-        <Route exact path='/chat/:userId'>
-          {authenticated(<div className="h-full">
-            <Chat />
-          </div>)}
-        </Route>
+          <Route exact path='/chat/:userId'>
+            {authenticated(<div className="h-full">
+              <Chat />
+            </div>)}
+          </Route>
 
-        <Route exact path='/status'>
-          {authenticated(<div className="h-full">
-            {/* <Navbar /> */}
+          <Route exact path='/status'>
+            {authenticated(<div className="h-full">
+              {/* <Navbar /> */}
 
-            <StatusList />
+              <StatusList />
 
-            <Footer />
-          </div>)}
-        </Route>
+              <Footer />
+            </div>)}
+          </Route>
 
-        <Route exact path='/status/:index'>
-          {authenticated(<div className="h-full">
-            {/* <Navbar /> */}
+          <Route exact path='/status/:index'>
+            {authenticated(<div className="h-full">
+              {/* <Navbar /> */}
 
-            <StatusView />
+              <StatusView />
 
-            <Footer />
-          </div>)}
-        </Route>
+              <Footer />
+            </div>)}
+          </Route>
 
-        {/* Post */}
-        <Route exact path='/posts/create'>
-          {authenticated(<div className="h-full">
-            <NewPost/>
-          </div>)}
-        </Route>
-        
-        <Route exact path='/posts/:id'>
-          <div className="h-full">
-            <PostView />
-            <Footer />
-          </div>
-        </Route>
+          {/* Post */}
+          <Route exact path='/posts/create'>
+            {authenticated(<div className="h-full">
+              <NewPost />
+            </div>)}
+          </Route>
 
-        {/* setting tab */}
-        <Route exact path='/settings'>
-          {authenticated(<div className="h-full">
-            <Navbar />
+          <Route exact path='/posts/:id'>
+            <div className="h-full">
+              <PostView />
+              <Footer />
+            </div>
+          </Route>
 
-            <Settings />
+          {/* setting tab */}
+          <Route exact path='/settings'>
+            {authenticated(<div className="h-full">
+              <Navbar />
 
-            <Footer />
-          </div>)}
-        </Route>
+              <Settings />
 
-        <Route exact path='/settings/edit'>
-          {authenticated(<div className="h-full">
+              <Footer />
+            </div>)}
+          </Route>
 
-            <EditSettings />
+          <Route exact path='/settings/edit'>
+            {authenticated(<div className="h-full">
 
-            <Footer />
-          </div>)}
-        </Route>
+              <EditSettings />
 
-        {/* Login */}
-        <Route exact path='/login'>
-          <Login />
-        </Route>
+              <Footer />
+            </div>)}
+          </Route>
 
-        {/* Logout */}
-        <Route exact path='/logout'>
-          <Logout />
-        </Route>
+          {/* Login */}
+          <Route exact path='/login'>
+            <Login />
+          </Route>
 
-        {/* Signup process */}
-        {/* step 1: check if user exists in database */}
-        <Route exact path='/signup'>
-          <SignUp />
-        </Route>
+          {/* Logout */}
+          <Route exact path='/logout'>
+            <Logout />
+          </Route>
 
-        {/* step 2: collect user email and send email verfication */}
-        <Route exact path='/signup/verify/:id'>
-          <Verify />
-        </Route>
+          {/* Signup process */}
+          {/* step 1: check if user exists in database */}
+          <Route exact path='/signup'>
+            <SignUp />
+          </Route>
 
-        {/* step 3: require and check the code via to email or text*/}
-        <Route exact path='/signup/code/:id'>
-          <Code />
-        </Route>
+          {/* step 2: collect user email and send email verfication */}
+          <Route exact path='/signup/verify/:id'>
+            <Verify />
+          </Route>
 
-        {/* step 4: set password and login user */}
-        <Route exact path='/signup/set-password/:id/:code'>
-          <SetPassword />
-        </Route>
+          {/* step 3: require and check the code via to email or text*/}
+          <Route exact path='/signup/code/:id'>
+            <Code />
+          </Route>
 
-      </Switch>
-    </div>
+          {/* step 4: set password and login user */}
+          <Route exact path='/signup/set-password/:id/:code'>
+            <SetPassword />
+          </Route>
+
+        </Switch>
+      </div>
+    </FooterProvider>
   );
 }

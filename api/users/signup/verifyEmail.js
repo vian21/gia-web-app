@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const db = require('../../../helpers/db');
+const {db} = require('../../../helpers/db');
 
 router.post('/', async (req, res) => {
     const data = req.body;

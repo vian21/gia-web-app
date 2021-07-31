@@ -1,4 +1,4 @@
-const db = require('../../db');
+const {db} = require('../../db');
 
 const updateProfilePicture = async (id, image) => {
     const [result] = await db.execute(`UPDATE users set profilePicture = ? WHERE id = ?`, [image, id])

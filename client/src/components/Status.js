@@ -43,10 +43,12 @@ export default function Status({ statusId }) {
             if (data.error) {
                 alert(data.error);
             }
-            setStatus(data)
+
+            setStatus(data);
         })
+
         return () => {
-            socket.off('status')
+            socket.off('status');
         }
 
     }, [id, token]);
@@ -73,24 +75,25 @@ export default function Status({ statusId }) {
         if (token && status.owner) {
 
             if (window.confirm("Are you sure you want to delete Status?")) {
-                const res = await fetch(`${process.env.REACT_APP_API}/api/status/${id}/delete`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    }
-                })
+                socket.emit('deleteStatus', status.id);
+                // const res = await fetch(`${process.env.REACT_APP_API}/api/status/${id}/delete`, {
+                //     method: 'POST',
+                //     headers: {
+                //         'Authorization': 'Bearer ' + token
+                //     }
+                // })
 
-                const data = await res.json();
+                // const data = await res.json();
 
-                if (data.error) {
-                    alert(data.error)
-                }
+                // if (data.error) {
+                //     alert(data.error)
+                // }
 
-                if (data.success) {
-                    alert("Status deleted!");
-                    history.push('/');
+                // if (data.success) {
+                //     alert("Status deleted!");
+                //     history.push('/');
 
-                }
+                // }
             }
         } else {
             alert(loginError)
@@ -98,7 +101,13 @@ export default function Status({ statusId }) {
 
     }
 
-
+    socket.on('deleteStatus', (data) => {
+        if (!data) {
+            alert("Failed to delete status!")
+        } else {
+            history.push('/status')
+        }
+    })
     return <div className="h-full w-full relative text-white">
         {/* info bar */}
         <div

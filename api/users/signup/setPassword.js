@@ -3,7 +3,7 @@ const router = express.Router();
 
 require('dotenv').config()
 
-const db = require('../../../helpers/db');
+const {db} = require('../../../helpers/db');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');

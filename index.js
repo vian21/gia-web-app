@@ -1,5 +1,5 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
 
 require('dotenv').config();
 
@@ -18,6 +18,8 @@ const io = new Server(server, {
 const { chats } = require('./api/chats');
 const status = require('./api/status');
 const feed = require('./api/feed');
+
+const { listener, MySQLEvents } = require('./helpers/db');
 
 
 const path = require('path');
@@ -55,6 +57,29 @@ app.use((req, res) => {
     res.status(404).send(notFound)
 })
 
+//Mysql events listening for new posts
+listener.start();
+
+listener.addTrigger({
+    name: 'Feed',
+    expression: 'app.posts.id',         //monitor id only - only inserts and deletes will be detected
+    statement: MySQLEvents.STATEMENTS.ALL,
+    onEvent: (event) => {
+        console.log(event)
+        io.sockets.emit('newFeed')
+    },
+});
+
+listener.addTrigger({
+    name: 'Status',
+    expression: 'app.status.id',         //monitor id only - only inserts and deletes will be detected
+    statement: MySQLEvents.STATEMENTS.ALL,
+    onEvent: (event) => {
+        console.log(event)
+        io.sockets.emit('newStatus')
+    },
+});
+
 //socket.io 
 
 //Authentication
@@ -90,11 +115,11 @@ io.on('connection', (socket) => {
 
     //chats handler/listener
     chats(socket, io);
-    feed(socket,io);
+    feed(socket, io);
     status(socket, io)
 
-    socket.on("disconnect", () => {
-        console.log("User disconnected!")
+    socket.on("disconnect", async () => {
+        console.log("User disconnected!");
     })
 });
 

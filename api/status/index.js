@@ -1,6 +1,8 @@
-const db = require('../../helpers/db');
+const {db} = require('../../helpers/db');
 
-const getStatus = require('../../helpers/functions/status/select').getStatus;
+const { getStatus } = require('../../helpers/functions/status/select');
+const { deleteStatus } = require('../../helpers/functions/status/delete');
+
 const { getUserName, getUserImage } = require('../../helpers/functions/users/select');
 const { getUserStatuses } = require('../../helpers/functions/status/select');
 
@@ -54,6 +56,11 @@ const status = async (socket, io) => {
 
     })
 
+    socket.on('deleteStatus', async (statusId) => {
+        const deleted = await deleteStatus(statusId);
+
+        socket.emit('deleteStatus', deleted);
+    })
 }
 
 module.exports = status;

@@ -1,4 +1,4 @@
-const db = require('../../helpers/db');
+const {db} = require('../../helpers/db');
 const { getUserImage, getUserName } = require('../../helpers/functions/users/select');
 
 const dayjs = require('dayjs');

@@ -3,7 +3,7 @@ const router = express.Router();
 
 const similar = require('string-similarity');
 
-const db = require('../../../helpers/db');
+const {db} = require('../../../helpers/db');
 
 router.post('/', async (req, res) => {
     const data = req.body;

@@ -3,7 +3,7 @@ const router = express.Router();
 
 require('dotenv').config()
 
-const db = require('../../../helpers/db');
+const {db} = require('../../../helpers/db');
 
 const validator = require('validator');
 const bcrypt = require('bcrypt');

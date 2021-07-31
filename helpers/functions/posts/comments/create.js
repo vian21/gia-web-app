@@ -1,4 +1,4 @@
-const db = require('../../../db');
+const {db} = require('../../../db');
 
 const date = new Date();
 const time = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
