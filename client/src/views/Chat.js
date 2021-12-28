@@ -19,7 +19,7 @@ export default function Chat() {
         socket.emit('joinChat', userId);
 
         //fetch chat users info
-        socket.once('joinChat', (data) => {
+        socket.on('joinChat', (data) => {
             setChatInfo(data);
         })
 
@@ -32,7 +32,7 @@ export default function Chat() {
         }
     }, [])
 
-    socket.once('getMessages', (data) => {
+    socket.on('getMessages', (data) => {
         //store previouslly fetched data in temporal variable
         let temp = messages;
 

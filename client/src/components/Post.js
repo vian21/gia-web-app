@@ -27,6 +27,7 @@ SwiperCore.use([Pagination]);
 
 export default function Post({ postId }) {
     const id = postId;
+    console.log(id)
     const token = Cookies.get('token');
 
     const history = useHistory();

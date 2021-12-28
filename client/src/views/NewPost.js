@@ -48,29 +48,38 @@ export default function NewPost() {
 
     }
     return <div className="h-full">
+
         <form
             className="p-3"
             onSubmit={submitForm}>
-
-            <input
-                className="p-3"
-                onChange={(event) => { setImages(event.target.files) }}
-                type="file"
-                multiple />
-
+                <p className="p-3 text-2xl text-white">New Post</p>
+            <center>
+                <input
+                    className="p-3"
+                    onChange={(event) => { setImages(event.target.files) }}
+                    type="file"
+                    placeholder="Select Photos"
+                    multiple />
+            
+            </center>
             <label
-                className="p-3">Description</label>
+                className="p-3 text-lg">Description</label>
             <br />
-            <input
-                className="p-3 text-black"
-                type="text"
-                placeholder="say something"
-                ref={description} />
-            <br />
+            <center>
+                <div className="w-full">
+                    <input
+                        className="border-2 h-60 p-3  rounded-md text-black w-11/12 "
+                        type="text"
+                        placeholder="Write Something"
+                        ref={description} />
+                </div>
+                <br />
 
-            <button
-                className="bg-blue-300 p-3 w-4/5"
-                type="submit">Post</button>
+                <button
+                    className="bg-blue-300 p-3 w-11/12"
+                    type="submit">Post</button>
+            </center>
+
         </form>
-    </div>
+    </div >
 }

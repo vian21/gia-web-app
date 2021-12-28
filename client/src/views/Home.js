@@ -8,28 +8,64 @@ import Post from '../components/Post';
 import socket from '../socket';
 
 export default function Home() {
+
     const token = Cookies.get('token');
 
     const [feed, setFeed] = useState([]);
 
-    const { setNewFeed } = useContext(FooterContext)
+    const { setNewFeed } = useContext(FooterContext);
 
-    useEffect(() => {
+    let offSet = 0;
+
+    useEffect(async () => {
         socket.emit('feed');
+
         return () => {
 
         }
-    }, [])
+    },[])
 
-    socket.on('feed', (data) => {
+
+
+    socket.once('feed', (data) => {
         if (data.error) {
-            alert(data.error)
+            alert(data.error);
         }
+
         else {
-            setFeed(data);
-            setNewFeed(false);
+
+            if (data.length !== 0) {
+                /**
+                 * If it is first feed load, the offset will be 0
+                 */
+                if (offSet === 0) {
+                    setFeed(data);
+
+                    // //store id of last post
+                    // offSet = data[0].id;
+                    
+                }
+                // else {
+                //     let temp = feed;
+
+                //     temp.unshift(data);
+
+                // }
+
+                // offSet = data[0].id || 0;       //taking the first element because they are served in descending order. The last post is first
+                // console.log(offSet)
+                setNewFeed(false);
+            }
+
         }
     })
+
+    socket.once('newFeed', () => {
+        console.log("new",offSet)
+        // socket.emit('feed', offSet);
+        // console.log("here")
+    })
+
     return <div>
         <center>
             <Link to='/posts/create'>

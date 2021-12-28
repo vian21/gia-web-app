@@ -66,7 +66,7 @@ listener.addTrigger({
     statement: MySQLEvents.STATEMENTS.ALL,
     onEvent: (event) => {
         console.log(event)
-        io.sockets.emit('newFeed')
+        io.emit('newFeed')
     },
 });
 
@@ -76,7 +76,7 @@ listener.addTrigger({
     statement: MySQLEvents.STATEMENTS.ALL,
     onEvent: (event) => {
         console.log(event)
-        io.sockets.emit('newStatus')
+        io.emit('newStatus')
     },
 });
 
