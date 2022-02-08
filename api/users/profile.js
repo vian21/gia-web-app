@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const dayjs = require('dayjs')
+const dayjs = require('dayjs');
 
-const { db } = require('../../../helpers/db');
+const { db } = require('../../helpers/db');
 
-router.post('/', async (req, res) => {
-    const [result] = await db.execute(`SELECT id,idNumber,name, email, contacts, profilePicture, DOB, gender FROM users WHERE id=?`, [res.locals.id])
+router.post('/:id', async (req, res) => {
+    const userId = (req.params.id > 0) ? req.params.id : res.locals.id;          //if there is no userid given, it will fetch the profile info of teh current user
+   
+    const [result] = await db.execute(`SELECT id,idNumber,name, email, contacts, profilePicture, DOB, gender FROM users WHERE id=?`, [userId])
         .catch(console.log)
 
     if (result.length !== 0) {

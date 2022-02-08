@@ -7,14 +7,20 @@ import { FooterContext } from "../context/FooterContext";
 import Post from '../components/Post';
 import socket from '../socket';
 
-export default function Home() {
+export default function Home({ reload = false }) {
 
     const token = Cookies.get('token');
 
     const [feed, setFeed] = useState([]);
 
     const { setNewFeed } = useContext(FooterContext);
+    const { reloadHome } = useContext(FooterContext);
 
+    if (reloadHome) {
+        window.location.reload();
+    }
+
+    //store id of last post
     let offSet = 0;
 
     useEffect(async () => {
@@ -23,7 +29,7 @@ export default function Home() {
         return () => {
 
         }
-    },[])
+    }, [])
 
 
 
@@ -43,7 +49,7 @@ export default function Home() {
 
                     // //store id of last post
                     // offSet = data[0].id;
-                    
+
                 }
                 // else {
                 //     let temp = feed;
@@ -60,11 +66,11 @@ export default function Home() {
         }
     })
 
-    socket.once('newFeed', () => {
-        console.log("new",offSet)
-        // socket.emit('feed', offSet);
-        // console.log("here")
-    })
+    // socket.once('newFeed', () => {
+    //     console.log("new",offSet)
+    //     // socket.emit('feed', offSet);
+    //     // console.log("here")
+    // })
 
     return <div>
         <center>

@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const errorMessage = { error: "Please login!" };
 
 const authenticated = (req, res, next) => {
+    //get cookie in request or JWT token in the headers under the param authorization
     if (req.cookies.token || req.headers['authorization']) {
         //variable to store JWT token sent by device either in cookies or athentication header
         let token;

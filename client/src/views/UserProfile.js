@@ -1,26 +1,19 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import cookies from 'js-cookie';
 
-export default function Settings() {
+export default function UserProfile() {
     const token = cookies.get('token');
     const [user, setUser] = useState({});
-    const [contacts, setContacts] = useState([]);
+    const [contacts, setContacts] = useState([])
     const [posts, setPosts] = useState([]);
 
-    let theme = 'system';
-    if (localStorage.getItem('theme') && localStorage.getItem('theme') === 'dark') {
-        theme = 'dark';
-    }
-    if (localStorage.getItem('theme') && localStorage.getItem('theme') === 'light') {
-
-        theme = 'light';
-    }
+    const {userId} = useParams();
 
     useEffect(() => {
         async function fetchUserInfo() {
-            const res = await fetch(`${process.env.REACT_APP_API}/api/users/0`, {  // userId is set to 0 becuase the backend will default(change it) to current user ID
+            const res = await fetch(`${process.env.REACT_APP_API}/api/users/${userId}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -43,7 +36,7 @@ export default function Settings() {
         }
 
         async function fetchUserPosts() {
-            const res = await fetch(`${process.env.REACT_APP_API}/api/users/0/posts`, {
+            const res = await fetch(`${process.env.REACT_APP_API}/api/users/${userId}/posts`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -66,47 +59,13 @@ export default function Settings() {
         fetchUserPosts();
     }, [token]);
 
-    function changeTheme(event) {
-        event.preventDefault();
-        let choice = event.target.value;
 
-        if (choice === 'system') {
-            localStorage.removeItem('theme');
-
-            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.documentElement.classList.add('dark');
-            }
-
-        } else {
-            localStorage.setItem('theme', choice);
-
-            if (choice === 'light') {
-                document.documentElement.classList.remove('dark')
-
-            } else {
-                document.documentElement.classList.add('dark');
-
-            }
-        }
-
-    }
     return <div
         className="h-full m-auto overflow-x-scroll text-lg w-full">
         <img
             className="w-4/5 m-auto pt-2 pb-4 rounded-full"
             src={`${process.env.REACT_APP_API}/media/${user.profilePicture || `defaultIcon.png`}`} alt='userImage' />
-        {/* dark mode toggler */}
-        <div >
-            <span>Theme:</span>
-            <select
-                value={theme}
-                onChange={changeTheme}
-                className="ml-2 p-2 dark:text-black">
-                <option value="light">Light mode</option>
-                <option value="dark">Dark mode</option>
-                <option value="system">System</option>
-            </select>
-        </div>
+  
         <div
             className="">
             <span
@@ -164,16 +123,9 @@ export default function Settings() {
             </div>
         ))}
 
-        <center>
-            <Link to='/settings/edit'>
-                <button
-                    className="w-11/12 bg-blue-400 p-3 mt-5 text-white px-10">
-                    Edit profile</button>
-            </Link>
-        </center>
 
         {/* Posts */}
-        <h1 className="dark:text-black">Posts</h1>
+        <h1 className="text-2xl text-black dark:text-white">Posts</h1>
         <div
             id="posts"
             className="w-full grid grid-cols-3 gap-1">

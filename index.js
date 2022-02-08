@@ -52,7 +52,7 @@ app.use('/api', api);
 //public folder
 app.use(express.static(path.resolve(__dirname, 'public')));
 
-// 404 page
+// 404 page (Not Found)
 app.use((req, res) => {
     res.status(404).send(notFound)
 })
@@ -60,6 +60,7 @@ app.use((req, res) => {
 //Mysql events listening for new posts
 listener.start();
 
+//Listen for new posts or changes in posts database
 listener.addTrigger({
     name: 'Feed',
     expression: 'app.posts.id',         //monitor id only - only inserts and deletes will be detected
@@ -70,6 +71,7 @@ listener.addTrigger({
     },
 });
 
+//Monitor for new status updates
 listener.addTrigger({
     name: 'Status',
     expression: 'app.status.id',         //monitor id only - only inserts and deletes will be detected
@@ -113,9 +115,13 @@ io.on('connection', (socket) => {
 
     console.log('a user connected');
 
-    //chats handler/listener
+    //Chat socket handler
     chats(socket, io);
+
+    // feed socket handler
     feed(socket, io);
+
+    //status socket handler
     status(socket, io)
 
     socket.on("disconnect", async () => {

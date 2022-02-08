@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import Cookies from 'js-cookie';
 import ReactPlayer from 'react-player'
@@ -27,7 +27,7 @@ SwiperCore.use([Pagination]);
 
 export default function Post({ postId }) {
     const id = postId;
-    console.log(id)
+
     const token = Cookies.get('token');
 
     const history = useHistory();
@@ -61,6 +61,7 @@ export default function Post({ postId }) {
         getPost();
     }, [id, token]);
 
+    //delete, save menu
     function menuHandler(event) {
         event.preventDefault();
 
@@ -104,15 +105,18 @@ export default function Post({ postId }) {
         }
 
     }
-    return <div>
+    return <div className=''>
         {/* info bar */}
         <div
-            className="w-full flex">
+            className="bg-white dark:bg-gray-900 flex w-full ">
+
             <div className="w-1/5 float-left p-3">
-                <img className="w-full rounded-full"
-                    src={`${process.env.REACT_APP_API}/media/${post.userImage || `defaultIcon.png`}`}
-                    alt="User pic"
-                    loading="lazy" />
+                <Link to={`/users/${post.id}`}>
+                    <img className="w-full rounded-full"
+                        src={`${process.env.REACT_APP_API}/media/${post.userImage || `defaultIcon.png`}`}
+                        alt="User pic"
+                        loading="lazy" />
+                </Link>
             </div>
 
             <div className="w-4/5 p-3 m-auto">
@@ -153,6 +157,8 @@ export default function Post({ postId }) {
             return <Swiper
                 pagination={true}
                 className="w-full">
+
+                {/** check if there are media attached to the file */}
                 {post.attachments ? post.attachments.map((attachment, index) => {
                     if (attachment.type === 'image') {
                         return < SwiperSlide
@@ -186,26 +192,45 @@ export default function Post({ postId }) {
                         </SwiperSlide>
                     }
 
-                    //Text post
-                    if (attachment.type === 'text') {
-                        return <SwiperSlide
-                            key={index}>
-                            <div
-                                className="m-auto p-3"
-                            >{attachment.text}</div>
-                        </SwiperSlide>
-                    }
+                    // //Text post
+                    // if (!post.attachments) {
+                    //     return <SwiperSlide
+                    //         key={index}>
+                    //         <div
+                    //             className="m-auto p-3"
+                    //         >{attachment.text}</div>
+                    //     </SwiperSlide>
+                    // }
 
                 }) : null}
+
 
             </Swiper>
 
         })()}
 
+        {/**
+           * Text only posts
+           */}
+        {(() => {
+            {/**
+               * first check if the data of the post has been fetched. It is initially empty
+               * post.attachemnets is initially undefined
+               * After the data has been fetched check is there are 0 attachments to confirm its is a text post 
+               * */}
+            if (post && post.attachments == undefined || post.attachments.length == 0) {
 
-        {/* action bar */}
+                return <div className='p-3 w-full'>
+                    <p className='break-words whitespace-pre-line'>{post.text}</p>
+                </div>
+            }
+
+        })()}
+
+
+        {/* Action bar */}
         <div
-            className="w-full bg-gray-200 flex">
+            className="bg-white dark:bg-gray-900 mb-3 w-full flex">
             {/* likes */}
             <LikeButton post={post} />
 
@@ -220,15 +245,6 @@ export default function Post({ postId }) {
             </div>
         </div>
 
-        {/* text of post (for image post which also have captio) */}
-        <div>
-            {(() => {
-                if (post.text) {
-                    return <div>{post.text}</div>
-                }
 
-            })()}
-        </div>
-
-    </div >;
+    </div>;
 }

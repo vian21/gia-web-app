@@ -59,7 +59,7 @@ export default function LikeButton({ post }) {
     }
 
     return <div
-        className="w-1/3 bg-gray-200 flex p-3"
+        className="w-1/3 bg-white dark:bg-gray-900 flex p-3"
         onClick={likeHandler}>
         <span className="mr-1">{likes}</span>
 

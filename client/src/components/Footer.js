@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 import { FooterContext } from '../context/FooterContext';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 export default function Footer() {
-    const { newFeed, newStatus } = useContext(FooterContext);
+    const { newFeed, newStatus, setReload } = useContext(FooterContext);
 
     /*
      * Mobile first approach
@@ -30,10 +30,20 @@ export default function Footer() {
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" /></svg>
             </NavLink>
 
-            {/* Home */}
-            <NavLink exact to='/' activeClassName='text-blue-300'>
+            {/* 
+              * Home
+              * Navlink does support reload when user is currently on page
+              * To forece page reload to see new posts
+              * The onclick checks if there are new posts and the sets the reloadHome variable to true
+              * which is declared in the Home View Component
+              */}
+            <NavLink exact to='/' onClick={() => newFeed ? setReload(true) : null} activeClassName='text-blue-300'>
                 <div className="relative">
+
+                    {/**Home icon */}
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+
+                    {/**Red dot when theres is new post */}
                     <div className={`absolute bg-red-500 inline-block right-0 rounded-full top-0 text-red-500 text-xs px-1 ${!newFeed ? 'hidden' : null}`}>o</div>
                 </div>
             </NavLink>

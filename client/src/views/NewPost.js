@@ -15,14 +15,20 @@ export default function NewPost() {
     const submitForm = async (event) => {
         event.preventDefault();
 
-        if (description.current.value !== '' || images) {
+        //check if there is at least description or a media file (image/ video)
+        if (description.current.value !== '' || images !== null) {
             const body = new FormData();
 
             const text = description.current.value;
 
-            for (const key of Object.keys(images)) {
-                body.append('media', images[key])
+            //if there is mediale ,if it has captured
+            console.log(images)
+            if (images !== null) {
+                for (const key of Object.keys(images)) {
+                    body.append('media', images[key])
+                }
             }
+
 
             body.append('text', text);
 
@@ -52,7 +58,7 @@ export default function NewPost() {
         <form
             className="p-3"
             onSubmit={submitForm}>
-                <p className="p-3 text-2xl text-white">New Post</p>
+            <p className="p-3 text-2xl text-white">New Post</p>
             <center>
                 <input
                     className="p-3"
@@ -60,7 +66,7 @@ export default function NewPost() {
                     type="file"
                     placeholder="Select Photos"
                     multiple />
-            
+
             </center>
             <label
                 className="p-3 text-lg">Description</label>

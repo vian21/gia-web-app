@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
-const {db} = require('../../../helpers/db');
+const { db } = require('../../helpers/db');
 
 const dayjs = require('dayjs');
 
-router.post('/', async (req, res) => {
+router.post('/:id/posts', async (req, res) => {
+    const userId = (req.params.id > 0) ? req.params.id : res.locals.id;          //if there is no userid given, it will fetch the profile info of teh current user
+
     // res.locals.id is defined in ./helpers/authenticated
-    const [results] = await db.execute(`SELECT * FROM posts WHERE user = ?`, [res.locals.id])
+    const [results] = await db.execute(`SELECT * FROM posts WHERE user = ?`, [userId])
         .catch(error => {
             console.log(error)
         })

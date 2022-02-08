@@ -21,7 +21,7 @@ export default function Settings() {
     //fetch user info on load
     useEffect(() => {
         async function fetchData() {
-            const res = await fetch(`${process.env.REACT_APP_API}/api/users/settings/profile`, {
+            const res = await fetch(`${process.env.REACT_APP_API}/api/users/0`, {  // userId is set to 0 becuase the backend will default(change it) to current user ID
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,

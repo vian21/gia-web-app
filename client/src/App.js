@@ -6,6 +6,7 @@ import cookies, { set } from 'js-cookie';
 import Home from './views/Home';
 import StatusList from './views/StatusList';
 import StatusView from './views/StatusView';
+import UserProfile from './views/UserProfile'
 
 import Conversations from './views/Conversations';
 import Chat from './views/Chat';
@@ -107,6 +108,17 @@ export default function App() {
               <Footer />
             </div>)}
           </Route>
+
+          <Route exact path='/users/:userId'>
+            {authenticated(<div className="h-full">
+              {/* <Navbar /> */}
+
+              <UserProfile />
+
+              <Footer />
+            </div>)}
+          </Route>
+
 
           {/* Post */}
           <Route exact path='/posts/create'>
