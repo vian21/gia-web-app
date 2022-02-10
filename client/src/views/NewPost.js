@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 export default function NewPost() {
     const token = Cookies.get('token');
 
-    const [images, setImages] = useState(null)
+    const [images, setImages] = useState("")
     const description = useRef('');
 
     const history = useHistory();
@@ -15,13 +15,13 @@ export default function NewPost() {
     const submitForm = async (event) => {
         event.preventDefault();
 
-        //check if there is at least description or a media file (image/ video)
+        //check if there is at least description text or a media file (image/ video)
         if (description.current.value !== '' || images !== null) {
             const body = new FormData();
 
             const text = description.current.value;
 
-            //if there is mediale ,if it has captured
+            //if there is media ,if it has captured
             console.log(images)
             if (images !== null) {
                 for (const key of Object.keys(images)) {
@@ -56,10 +56,17 @@ export default function NewPost() {
     return <div className="h-full">
 
         <form
-            className="p-3"
+            className="h-full p-3"
             onSubmit={submitForm}>
             <p className="p-3 text-2xl text-white">New Post</p>
             <center>
+
+                <div className={`${images ? ' ' : 'hidden '}h-60 w-3/5`}>
+                    <img
+                        src={`${images ? URL.createObjectURL(images[0]) : null}`}
+                        className="object-scale-down h-full w-full" />
+                </div>
+
                 <input
                     className="p-3"
                     onChange={(event) => { setImages(event.target.files) }}

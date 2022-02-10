@@ -90,11 +90,15 @@ export default function Settings() {
         }
 
     }
-    return <div
-        className="h-full m-auto overflow-x-scroll text-lg w-full">
-        <img
-            className="w-4/5 m-auto pt-2 pb-4 rounded-full"
-            src={`${process.env.REACT_APP_API}/media/${user.profilePicture || `defaultIcon.png`}`} alt='userImage' />
+    return <div className="h-full m-auto overflow-x-scroll text-lg w-full">
+
+        <div
+            className="h-2/5 w-4/5 m-auto mt-2 mb-4 ">
+            <img
+                className='h-full object-cover rounded-full w-full'
+                src={`${process.env.REACT_APP_API}/media/${user.profilePicture || `defaultIcon.png`}`} alt='userImage' />
+        </div>
+
         {/* dark mode toggler */}
         <div >
             <span>Theme:</span>
@@ -110,41 +114,41 @@ export default function Settings() {
         <div
             className="">
             <span
-                className="p-2 inline-block">ID number:</span>
+                className="p-2 inline-block w-1/3">ID number:</span>
             <span
-                className="p-2 px-5 dark:text-white">{user.idNumber}</span>
+                className="dark:text-white rounded-md w-3/5">{user.idNumber}</span>
         </div>
 
         <div
             className="">
             <span
-                className="p-2 inline-block">Name:</span>
+                className="p-2 inline-block w-1/3">Name:</span>
             <span
-                className="p-2 px-5">{user.name}</span>
+                className=" rounded-md w-3/5">{user.name}</span>
         </div>
 
         <div
             className="">
             <span
-                className="p-2 inline-block">DOB:</span>
+                className="p-2 inline-block w-1/3">DOB:</span>
             <span
-                className="p-2 px-5 dark:text-white">{user.DOB}</span>
+                className=" dark:text-white rounded-md w-3/5">{user.DOB}</span>
         </div>
 
         <div
             className="">
             <span
-                className="p-2 inline-block">Gender:</span>
+                className="p-2 inline-block w-1/3">Gender:</span>
             <span
-                className="p-2 px-5 dark:text-white">{window.genders[user.gender]}</span>
+                className="dark:text-white rounded-md w-3/5">{window.genders[user.gender]}</span>
         </div>
 
         <div
             className="">
             <span
-                className="p-2 inline-block">Email:</span>
+                className="p-2 inline-block w-1/3">Email:</span>
             <span
-                className="p-2 px-5 dark:text-white">{user.email}</span>
+                className=" dark:text-white overflow-auto rounded-md w-1/5">{user.email}</span>
         </div>
 
         {/* contacts */}
@@ -155,9 +159,9 @@ export default function Settings() {
                 {/* display contacts with value added to them */}
                 {contact.value && <div>
                     <span
-                        className="p-2 inline-block">{contact.app}:</span>
+                        className="p-2 inline-block w-1/3">{contact.app}:</span>
                     <span
-                        className="p-2 px-5 dark:text-white">{contact.value}</span>
+                        className="dark:text-white rounded-md w-3/5">{contact.value}</span>
                 </div>
                 }
 

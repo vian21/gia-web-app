@@ -222,22 +222,23 @@ export default function Settings() {
 
     //render function
     return <div
-        className="w-96 m-auto text-lg">
+        className="h-full m-auto overflow-x-scroll text-lg w-full">
 
-        <img
-            className="w-4/5 m-auto pt-2 pb-4"
-            id="profile"
-            src={`${process.env.REACT_APP_API}/media/${user.profilePicture || `defaultIcon.png`}`}
-            alt='userImage' />
+        <div
+            className="h-2/5 w-4/5 m-auto mt-2 mb-4 ">
+            <img
+                className='h-full object-cover rounded-full w-full'
+                src={`${process.env.REACT_APP_API}/media/${user.profilePicture || `defaultIcon.png`}`} alt='userImage' />
+        </div>
 
         <input type="file" onChange={updateProfilePicture} />
         {imageError}
         <div
-            className="">
+            className="mb-1">
             <span
-                className="p-2 inline-block">ID number:</span>
+                className="p-2 inline-block w-1/3">ID number:</span>
             <input
-                className="p-2 bg-gray-100 px-5 dark:text-black"
+                className="p-2 bg-gray-100 px-5 dark:text-black rounded-md w-3/5"
                 defaultValue={user.idNumber}
                 onBlur={updateId}
             />
@@ -246,11 +247,11 @@ export default function Settings() {
         </div>
 
         <div
-            className="">
+            className="mb-1">
             <span
-                className="p-2 inline-block">Name:</span>
+                className="p-2 inline-block w-1/3">Name:</span>
             <input
-                className="p-2 bg-gray-100 px-5 dark:text-black"
+                className="p-2 bg-gray-100 px-5 dark:text-black rounded-md w-3/5"
                 defaultValue={user.name}
                 onBlur={updateName}
             />
@@ -258,11 +259,11 @@ export default function Settings() {
         </div>
 
         <div
-            className="">
+            className="mb-1">
             <span
-                className="p-2 inline-block">DOB:</span>
+                className="p-2 inline-block w-1/3">DOB:</span>
             <input
-                className="p-2 bg-gray-100 px-5 dark:text-black"
+                className="p-2 bg-gray-100 px-5 dark:text-black rounded-md w-3/5"
                 type="date"
                 defaultValue={user.DOB}
                 onBlur={updateDOB}
@@ -271,13 +272,13 @@ export default function Settings() {
         </div>
 
         <div
-            className="">
+            className="mb-1">
             <span
-                className="p-2 inline-block">Gender:</span>
+                className="p-2 inline-block w-1/3">Gender:</span>
             <select
                 onChange={updateGender}
                 value={user.gender}
-                className="dark:text-black p-3">
+                className="dark:text-black p-3 rounded-md w-3/5">
                 {/* <option value={user.gender}>{window.genders[user.gender]}</option> */}
                 {window.genders.map((gender, index) => (
                     <option key={index} value={index}>{gender}</option>
@@ -287,11 +288,11 @@ export default function Settings() {
         </div>
 
         <div
-            className="">
+            className="mb-1">
             <span
-                className="p-2 inline-block">Email:</span>
+                className="p-2 inline-block w-1/3">Email:</span>
             <input
-                className="p-2 bg-gray-100 px-5 dark:text-black"
+                className="p-2 bg-gray-100 px-5 dark:text-black rounded-md w-3/5"
                 defaultValue={user.email}
                 onBlur={updateEmail}
             />
@@ -302,11 +303,11 @@ export default function Settings() {
         {contacts.map((contact, index) => (
             <div
                 key={index}
-                className="">
+                className="mb-1">
                 <span
-                    className="p-2 inline-block">{contact.app}:</span>
+                    className="p-2 inline-block w-1/3">{contact.app}:</span>
                 <input
-                    className="p-2 bg-gray-100 px-5 dark:text-black"
+                    className="p-2 bg-gray-100 px-5 dark:text-black rounded-md w-3/5"
                     defaultValue={contact.value}
                     onBlur={(e) => updateContact(e, index)}
                 />

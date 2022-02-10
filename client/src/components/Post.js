@@ -109,20 +109,22 @@ export default function Post({ postId }) {
         {/* info bar */}
         <div
             className="bg-white dark:bg-gray-900 flex w-full ">
+                
+            <Link to={`/users/${post.user}`}>
+                <div className="w-1/5 float-left p-3">
 
-            <div className="w-1/5 float-left p-3">
-                <Link to={`/users/${post.id}`}>
-                    <img className="w-full rounded-full"
+                    <img className="object-cover w-full rounded-full"
                         src={`${process.env.REACT_APP_API}/media/${post.userImage || `defaultIcon.png`}`}
                         alt="User pic"
                         loading="lazy" />
-                </Link>
-            </div>
 
-            <div className="w-4/5 p-3 m-auto">
-                <div>{post.userName}</div>
-                <div>{post.location}</div>
-            </div>
+                </div>
+
+                <div className="w-4/5 p-3 m-auto">
+                    <div>{post.userName}</div>
+                    <div>{post.location}</div>
+                </div>
+            </Link>
 
             {/* post dropdown menu */}
             <div
@@ -165,9 +167,8 @@ export default function Post({ postId }) {
                             className="w-full bg-gray-300"
                             key={index} >
                             <img
-                                className="w-full m-auto"
+                                className="h-96 object-contain w-full m-auto"
                                 src={process.env.REACT_APP_API + '/media/' + attachment.url}
-                                height={window.innerWidth}
                                 alt='Post img'
                                 loading="lazy" />
                             {/* {attachment.text?<div>{attachment.text}</div>:null} */}

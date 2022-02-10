@@ -3,7 +3,6 @@ const router = express.Router();
 
 const login = require('./login');
 const signup = require('./signup');
-const settings = require('./settings');
 
 const update = require('./update');
 
@@ -22,7 +21,6 @@ router.use('/', authenticated, posts)                           //fetch posts by
 
 router.use('/signup', signup);
 
-router.use('/settings', authenticated, settings);
 
 router.use('/update', authenticated, update);
 
