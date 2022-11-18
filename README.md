@@ -4,6 +4,6 @@ This is app is meant to help school alumni from my former school(Gitega Internat
 **DISCLAIMER**: App still in developement. Hit me up if you wanna collaborate on it. I am currently not actively working on it.  
 
 ## TODO:
-[] Redesign the archicture to use a clean archicture
-[] Decouple the database from the logic
-[] Finish it then deploy it Bro :)
+- [] Redesign the archicture to use a clean archicture
+- [] Decouple the database from the logic
+- [] Finish it then deploy it Bro :)
