@@ -1,7 +1,9 @@
 # Hello world
 
 <center>
-<img src="images/login.png">
+
+<img src="images/login.png" width="300px" />
+
 </center>
 This is app is meant to help school alumni from my former school(Gitega International Academy) reunite and have a database where we could all know who is where and what they are up to. It is meant to inspire people and motivated them to collaborate on projects to make a difference in the country and the world at large.
 
